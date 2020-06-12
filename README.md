@@ -1,5 +1,7 @@
 # kubernetes-json-schema
 
+A repo to host custom resource definitions to be use with `kubeval`. Fixes this [issue](https://github.com/instrumenta/kubeval/issues/47).
+
 1. Obtain the YAML for the CRD you want to validate
 2. Run [js-yaml](https://github.com/nodeca/js-yaml)
 
