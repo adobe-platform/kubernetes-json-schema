@@ -3,21 +3,16 @@
 A repo to host custom resource definitions to be use with `kubeval`. Fixes this [issue](https://github.com/instrumenta/kubeval/issues/47).
 
 1. Obtain the YAML for the CRD you want to validate
-2. Run [js-yaml](https://github.com/nodeca/js-yaml)
+
+2. Run [js-yaml](https://github.com/nodeca/js-yaml), the output is the filename that `kubeval` expects (you can find the expected filename from a failed run of `kubeval`) :
 
 ```bash
-js-yaml helmrelease-crd.yaml > helmrelease-crd.json
+js-yaml helmrelease-crd.yaml > helmrelease-helm-v1.json
 ```
 
-3. Run [jsonnet](https://jsonnet.org/) on the file. You can find the expected filename from a failed run of `kubeval`:
+3. Upload the resulting schema on github, in a repository that container the `master-standalone` folder at the root (you can use a branch different from `master`, just amend the `--additional-schema-locations` flag below).
 
-```bash
-jsonnet helmrelease-crd.json > helmrelease-helm-v1.json
-```
-
-4. Upload the resulting schema on github
-
-5. Validate CRDs:
+4. Validate CRDs:
 
 ```bash
 kubeval --additional-schema-locations https://raw.githubusercontent.com/ams0/kubernetes-json-schema/master -d .
