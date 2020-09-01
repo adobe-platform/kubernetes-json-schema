@@ -105,7 +105,7 @@
                   "dns01": {
                     "description": "Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.",
                     "properties": {
-                      "acmedns": {
+                      "acmeDNS": {
                         "description": "Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.",
                         "properties": {
                           "accountSecretRef": {
@@ -201,7 +201,7 @@
                         ],
                         "type": "object"
                       },
-                      "azuredns": {
+                      "azureDNS": {
                         "description": "Use the Microsoft Azure DNS API to manage DNS01 challenge records.",
                         "properties": {
                           "clientID": {
@@ -254,7 +254,7 @@
                         ],
                         "type": "object"
                       },
-                      "clouddns": {
+                      "cloudDNS": {
                         "description": "Use the Google Cloud DNS API to manage DNS01 challenge records.",
                         "properties": {
                           "hostedZoneName": {
@@ -1409,5 +1409,8 @@
       "type": "object"
     }
   },
+  "required": [
+    "spec"
+  ],
   "type": "object"
 }
