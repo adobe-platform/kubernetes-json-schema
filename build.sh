@@ -18,12 +18,12 @@ function crd_to_json_schema() {
   case "${api_version}" in
     v1beta1)
       version=$(yq read "${input}" spec.version)
-      yq read --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema > "master-standalone/${kind}-${group}-${version}.json"
+      yq read --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${kind}-${group}-${version}.json"
       ;;
 
     v1)
       for version in $(yq read "${input}" spec.versions.*.name); do
-        yq read --prettyPrint --tojson "${input}" "spec.versions.(name==${version}).schema.openAPIV3Schema" > "master-standalone/${kind}-${group}-${version}.json"
+        yq read --prettyPrint --tojson "${input}" "spec.versions.(name==${version}).schema.openAPIV3Schema" | write_schema "${kind}-${group}-${version}.json"
       done
       ;;
 
@@ -32,6 +32,11 @@ function crd_to_json_schema() {
       return 1
       ;;
   esac
+}
+
+function write_schema() {
+  sponge "master-standalone/${1}"
+  jq 'def strictify: . + if .type == "object" then {additionalProperties: false} + {properties: (({} + .properties) | map_values(strictify))} else null end; . * {properties: {spec: .properties.spec | strictify}}' "master-standalone/${1}" | sponge "master-standalone-strict/${1}"
 }
 
 crd_to_json_schema cert-manager https://raw.githubusercontent.com/jetstack/cert-manager/master/deploy/crds/crd-clusterissuers.yaml
