@@ -1,0 +1,13 @@
+---
+apiVersion: 'helm.fluxcd.io/v1'
+kind: 'HelmRelease'
+metadata:
+  name: 'test'
+  namespace: 'test'
+spec:
+  chart:
+    name: 'test'
+    repository: 'https://example.com'
+    version: '1.0.0'
+  releaseName: 'test'
+  values: {}

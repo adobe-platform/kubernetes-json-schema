@@ -1,0 +1,11 @@
+---
+apiVersion: 'cert-manager.io/v1alpha2'
+kind: 'ClusterIssuer'
+metadata:
+  name: 'test'
+spec:
+  acme:
+    privateKeySecretRef:
+      name: 'test'
+    server: 'https://acme-staging-v02.api.letsencrypt.org/directory'
+    invalid-key: true
