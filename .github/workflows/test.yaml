@@ -8,5 +8,7 @@ jobs:
       - uses: 'actions/checkout@v2'
       - name: 'Install BATS'
         run: 'sudo npm install --global bats'
+      - name: 'Install kubeval'
+        uses: 'lra/setup-kubeval@v1'
       - name: 'Run BATS tests'
         run: 'bats test/'
