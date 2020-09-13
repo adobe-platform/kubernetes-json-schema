@@ -5,33 +5,35 @@ set -o nounset
 set -o pipefail
 
 function crd_to_json_schema() {
-  local api_version group input kind version
+  local api_version document group input kind version
 
   echo "Processing ${1}..."
   input="input/${1}.yaml"
-  curl --silent --show-error "${2}" > "${input}"
+  curl --silent --show-error "${@:2}" > "${input}"
 
-  api_version=$(yq read "${input}" apiVersion | cut --delimiter=/ --fields=2)
-  kind=$(yq read "${input}" spec.names.kind | tr '[:upper:]' '[:lower:]')
-  group=$(yq read "${input}" spec.group | cut --delimiter=. --fields=1)
+  for document in $(seq 0 $(($(yq read --collect --doc '*' --length "${input}") - 1))); do
+    api_version=$(yq read --doc "${document}" "${input}" apiVersion | cut --delimiter=/ --fields=2)
+    kind=$(yq read --doc "${document}" "${input}" spec.names.kind | tr '[:upper:]' '[:lower:]')
+    group=$(yq read --doc "${document}" "${input}" spec.group | cut --delimiter=. --fields=1)
 
-  case "${api_version}" in
-    v1beta1)
-      version=$(yq read "${input}" spec.version)
-      yq read --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${kind}-${group}-${version}.json"
-      ;;
+    case "${api_version}" in
+      v1beta1)
+        version=$(yq read --doc "${document}" "${input}" spec.version)
+        yq read --doc "${document}" --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${kind}-${group}-${version}.json"
+        ;;
 
-    v1)
-      for version in $(yq read "${input}" spec.versions.*.name); do
-        yq read --prettyPrint --tojson "${input}" "spec.versions.(name==${version}).schema.openAPIV3Schema" | write_schema "${kind}-${group}-${version}.json"
-      done
-      ;;
+      v1)
+        for version in $(yq read --doc "${document}" "${input}" spec.versions.*.name); do
+          yq read --doc "${document}" --prettyPrint --tojson "${input}" "spec.versions.(name==${version}).schema.openAPIV3Schema" | write_schema "${kind}-${group}-${version}.json"
+        done
+        ;;
 
-    *)
-      echo "Unknown API version: ${version}" >&2
-      return 1
-      ;;
-  esac
+      *)
+        echo "Unknown API version: ${version}" >&2
+        return 1
+        ;;
+    esac
+  done
 }
 
 function write_schema() {
@@ -41,3 +43,4 @@ function write_schema() {
 
 crd_to_json_schema cert-manager https://raw.githubusercontent.com/jetstack/cert-manager/master/deploy/crds/crd-clusterissuers.yaml
 crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
+crd_to_json_schema prometheus-operator https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/example/prometheus-operator-crd/monitoring.coreos.com_{alertmanagers,podmonitors,probes,prometheuses,prometheusrules,servicemonitors,thanosrulers}.yaml
