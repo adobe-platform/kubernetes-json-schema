@@ -6,5 +6,5 @@ metadata:
   namespace: 'test'
 spec:
   templates:
-    - selector: { }
-      template: { }
+    - selector: {}
+      template: {}
