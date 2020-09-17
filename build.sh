@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 
 function crd_to_json_schema() {
-  local api_version document group input kind version
+  local api_version crd_group crd_kind crd_version document input kind
 
   echo "Processing ${1}..."
   input="input/${1}.yaml"
@@ -13,23 +13,28 @@ function crd_to_json_schema() {
 
   for document in $(seq 0 $(($(yq read --collect --doc '*' --length "${input}") - 1))); do
     api_version=$(yq read --doc "${document}" "${input}" apiVersion | cut --delimiter=/ --fields=2)
-    kind=$(yq read --doc "${document}" "${input}" spec.names.kind | tr '[:upper:]' '[:lower:]')
-    group=$(yq read --doc "${document}" "${input}" spec.group | cut --delimiter=. --fields=1)
+    kind=$(yq read --doc "${document}" "${input}" kind)
+    crd_kind=$(yq read --doc "${document}" "${input}" spec.names.kind | tr '[:upper:]' '[:lower:]')
+    crd_group=$(yq read --doc "${document}" "${input}" spec.group | cut --delimiter=. --fields=1)
+
+    if [[ "${kind}" != CustomResourceDefinition ]]; then
+      continue
+    fi
 
     case "${api_version}" in
       v1beta1)
-        version=$(yq read --doc "${document}" "${input}" spec.version)
-        yq read --doc "${document}" --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${kind}-${group}-${version}.json"
+        crd_version=$(yq read --doc "${document}" "${input}" spec.version)
+        yq read --doc "${document}" --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         ;;
 
       v1)
-        for version in $(yq read --doc "${document}" "${input}" spec.versions.*.name); do
-          yq read --doc "${document}" --prettyPrint --tojson "${input}" "spec.versions.(name==${version}).schema.openAPIV3Schema" | write_schema "${kind}-${group}-${version}.json"
+        for crd_version in $(yq read --doc "${document}" "${input}" spec.versions.*.name); do
+          yq read --doc "${document}" --prettyPrint --tojson "${input}" "spec.versions.(name==${crd_version}).schema.openAPIV3Schema" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         done
         ;;
 
       *)
-        echo "Unknown API version: ${version}" >&2
+        echo "Unknown API version: ${api_version}" >&2
         return 1
         ;;
     esac
