@@ -539,7 +539,7 @@
           "type": "array"
         },
         "containers": {
-          "description": "Containers allows injecting additional containers or modifying operator generated containers. This can be used to allow adding an authentication proxy to a ThanosRuler pod or to change the behavior of an operator generated container. Containers described here modify an operator generated container if they share the same name and modifications are done via a strategic merge patch. The current container names are: `thanos-ruler` and `rules-configmap-reloader`. Overriding containers is entirely outside the scope of what the maintainers will support and by doing so, you accept that this behaviour may break at any time without notice.",
+          "description": "Containers allows injecting additional containers or modifying operator generated containers. This can be used to allow adding an authentication proxy to a ThanosRuler pod or to change the behavior of an operator generated container. Containers described here modify an operator generated container if they share the same name and modifications are done via a strategic merge patch. The current container names are: `thanos-ruler` and `config-reloader`. Overriding containers is entirely outside the scope of what the maintainers will support and by doing so, you accept that this behaviour may break at any time without notice.",
           "items": {
             "description": "A single application container that you want to run within a pod.",
             "properties": {
@@ -1555,7 +1555,7 @@
           "description": "GRPCServerTLSConfig configures the gRPC server from which Thanos Querier reads recorded rule data. Note: Currently only the CAFile, CertFile, and KeyFile fields are supported. Maps to the '--grpc-server-tls-*' CLI args.",
           "properties": {
             "ca": {
-              "description": "Stuct containing the CA cert to use for the targets.",
+              "description": "Struct containing the CA cert to use for the targets.",
               "properties": {
                 "configMap": {
                   "description": "ConfigMap containing data to use for the targets.",

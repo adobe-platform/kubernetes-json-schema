@@ -608,7 +608,7 @@
                     "description": "TLS Config to use for alertmanager connection.",
                     "properties": {
                       "ca": {
-                        "description": "Stuct containing the CA cert to use for the targets.",
+                        "description": "Struct containing the CA cert to use for the targets.",
                         "properties": {
                           "configMap": {
                             "description": "ConfigMap containing data to use for the targets.",
@@ -834,7 +834,7 @@
               "description": "TLS Config to use for accessing apiserver.",
               "properties": {
                 "ca": {
-                  "description": "Stuct containing the CA cert to use for the targets.",
+                  "description": "Struct containing the CA cert to use for the targets.",
                   "properties": {
                     "configMap": {
                       "description": "ConfigMap containing data to use for the targets.",
@@ -1000,7 +1000,7 @@
           "type": "array"
         },
         "containers": {
-          "description": "Containers allows injecting additional containers or modifying operator generated containers. This can be used to allow adding an authentication proxy to a Prometheus pod or to change the behavior of an operator generated container. Containers described here modify an operator generated container if they share the same name and modifications are done via a strategic merge patch. The current container names are: `prometheus`, `prometheus-config-reloader`, `rules-configmap-reloader`, and `thanos-sidecar`. Overriding containers is entirely outside the scope of what the maintainers will support and by doing so, you accept that this behaviour may break at any time without notice.",
+          "description": "Containers allows injecting additional containers or modifying operator generated containers. This can be used to allow adding an authentication proxy to a Prometheus pod or to change the behavior of an operator generated container. Containers described here modify an operator generated container if they share the same name and modifications are done via a strategic merge patch. The current container names are: `prometheus`, `config-reloader`, and `thanos-sidecar`. Overriding containers is entirely outside the scope of what the maintainers will support and by doing so, you accept that this behaviour may break at any time without notice.",
           "items": {
             "description": "A single application container that you want to run within a pod.",
             "properties": {
@@ -3428,7 +3428,7 @@
                 "description": "TLS Config to use for remote read.",
                 "properties": {
                   "ca": {
-                    "description": "Stuct containing the CA cert to use for the targets.",
+                    "description": "Struct containing the CA cert to use for the targets.",
                     "properties": {
                       "configMap": {
                         "description": "ConfigMap containing data to use for the targets.",
@@ -3694,7 +3694,7 @@
                 "description": "TLS Config to use for remote write.",
                 "properties": {
                   "ca": {
-                    "description": "Stuct containing the CA cert to use for the targets.",
+                    "description": "Struct containing the CA cert to use for the targets.",
                     "properties": {
                       "configMap": {
                         "description": "ConfigMap containing data to use for the targets.",
@@ -4491,7 +4491,7 @@
               "description": "GRPCServerTLSConfig configures the gRPC server from which Thanos Querier reads recorded rule data. Note: Currently only the CAFile, CertFile, and KeyFile fields are supported. Maps to the '--grpc-server-tls-*' CLI args.",
               "properties": {
                 "ca": {
-                  "description": "Stuct containing the CA cert to use for the targets.",
+                  "description": "Struct containing the CA cert to use for the targets.",
                   "properties": {
                     "configMap": {
                       "description": "ConfigMap containing data to use for the targets.",
@@ -5896,6 +5896,16 @@
         "walCompression": {
           "description": "Enable compression of the write-ahead log using Snappy. This flag is only available in versions of Prometheus \u003e= 2.11.0.",
           "type": "boolean"
+        },
+        "web": {
+          "description": "WebSpec defines the web command line flags when starting Prometheus.",
+          "properties": {
+            "pageTitle": {
+              "description": "The prometheus web page title",
+              "type": "string"
+            }
+          },
+          "type": "object"
         }
       },
       "type": "object"

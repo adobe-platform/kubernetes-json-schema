@@ -2707,6 +2707,8 @@ spec:
                               - value
                               type: object
                             type: array
+                          insecure:
+                            type: boolean
                           jsonPath:
                             type: string
                           timeoutSeconds:
@@ -2714,7 +2716,6 @@ spec:
                           url:
                             type: string
                         required:
-                        - jsonPath
                         - url
                         type: object
                     type: object
@@ -5511,6 +5512,8 @@ spec:
                               - value
                               type: object
                             type: array
+                          insecure:
+                            type: boolean
                           jsonPath:
                             type: string
                           timeoutSeconds:
@@ -5518,7 +5521,6 @@ spec:
                           url:
                             type: string
                         required:
-                        - jsonPath
                         - url
                         type: object
                     type: object
@@ -8243,6 +8245,8 @@ spec:
                               - value
                               type: object
                             type: array
+                          insecure:
+                            type: boolean
                           jsonPath:
                             type: string
                           timeoutSeconds:
@@ -8250,7 +8254,6 @@ spec:
                           url:
                             type: string
                         required:
-                        - jsonPath
                         - url
                         type: object
                     type: object
@@ -14161,6 +14164,15 @@ rules:
   - get
   - update
   - patch
+- apiGroups:
+  - networking.istio.io
+  resources:
+  - virtualservices
+  verbs:
+  - watch
+  - get
+  - update
+  - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -14365,6 +14377,7 @@ rules:
   - watch
   - get
   - update
+  - list
 - apiGroups:
   - split.smi-spec.io
   resources:
@@ -14455,7 +14468,7 @@ spec:
       containers:
       - command:
         - /bin/rollouts-controller
-        image: argoproj/argo-rollouts:0.9.0
+        image: argoproj/argo-rollouts:v0.9.1
         imagePullPolicy: Always
         name: argo-rollouts
         volumeMounts:

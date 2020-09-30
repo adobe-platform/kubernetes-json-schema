@@ -4176,6 +4176,9 @@
                         },
                         "type": "array"
                       },
+                      "insecure": {
+                        "type": "boolean"
+                      },
                       "jsonPath": {
                         "type": "string"
                       },
@@ -4187,7 +4190,6 @@
                       }
                     },
                     "required": [
-                      "jsonPath",
                       "url"
                     ],
                     "type": "object"
