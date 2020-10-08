@@ -50,4 +50,5 @@ crd_to_json_schema argo-rollouts https://raw.githubusercontent.com/argoproj/argo
 crd_to_json_schema cert-manager https://raw.githubusercontent.com/jetstack/cert-manager/master/deploy/crds/crd-clusterissuers.yaml
 crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 crd_to_json_schema prometheus-operator https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/example/prometheus-operator-crd/monitoring.coreos.com_{alertmanagers,podmonitors,probes,prometheuses,prometheusrules,servicemonitors,thanosrulers}.yaml
+crd_to_json_schema contour https://raw.githubusercontent.com/phylake/contour/v1.5-adobe/examples/contour/01-crds.yaml
 
