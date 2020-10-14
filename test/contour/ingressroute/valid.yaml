@@ -1,0 +1,25 @@
+---
+apiVersion: 'contour.heptio.com/v1beta1'
+kind: 'IngressRoute'
+metadata:
+  name: 'test'
+spec:
+  routes:
+    - match: '/'
+      services:
+        - healthCheck:
+            healthyThresholdCount: 1
+            host: 'contour-envoy-healthcheck'
+            intervalSeconds: 10
+            path: '/index-test.html'
+            timeoutSeconds: 5
+            unhealthyThresholdCount: 3
+          idleTimeout: '60s'
+          name: 'test'
+          port: 8080
+          strategy: 'RingHash'
+      timeout: '60s'
+  virtualhost:
+    fqdn: 'test.cluster.ethos'
+    tls:
+      secretName: 'heptio-contour/cluster-ssl-public'
