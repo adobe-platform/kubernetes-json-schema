@@ -11,6 +11,9 @@ function crd_to_json_schema() {
   input="input/${1}.yaml"
   curl --silent --show-error "${@:2}" > "${input}"
 
+  # Clean the input for compound schema docs that don't contain a yaml seperator (e.g., aso)
+  perl -i -0pe 'BEGIN{undef $/;} s/(.+[^\-{3}]\s*)\napiVersion: apiextensions.k8s.io(.*)$/$1\n---\napiVersion: apiextensions.k8s.io$2/mg' "${input}"
+
   for document in $(seq 0 $(($(yq read --collect --doc '*' --length "${input}") - 1))); do
     api_version=$(yq read --doc "${document}" "${input}" apiVersion | cut --delimiter=/ --fields=2)
     kind=$(yq read --doc "${document}" "${input}" kind)
@@ -58,3 +61,5 @@ crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-o
 crd_to_json_schema prometheus-operator https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/example/prometheus-operator-crd/monitoring.coreos.com_{alertmanagers,podmonitors,probes,prometheuses,prometheusrules,servicemonitors,thanosrulers}.yaml
 crd_to_json_schema contour https://raw.githubusercontent.com/phylake/contour/v1.5-adobe/examples/contour/01-crds.yaml
 crd_to_json_schema istio https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
+# crd_to_json_schema service-catalog https://raw.githubusercontent.com/kubernetes-sigs/service-catalog/master/charts/catalog/templates/crds/{clusterservicebroker,clusterserviceclass,clusterserviceplan,servicebinding,servicebroker,serviceclass,serviceinstance,serviceplan}.yaml
+crd_to_json_schema aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts/azure-service-operator/crds/apiextensions.k8s.io_v1beta1_customresourcedefinition_{apimgmtapis,apimservices,appinsights,appinsightsapikeys,azureloadbalancers,azurenetworkinterfaces,azurepublicipaddresses,azuresqlactions,azuresqldatabases,azuresqlfailovergroups,azuresqlfirewallrules,azuresqlmanagedusers,azuresqlservers,azuresqlusers,azuresqlvnetrules,azurevirtualmachineextensions,azurevirtualmachines,azurevmscalesets,blobcontainers,consumergroups,cosmosdbs,eventhubnamespaces,eventhubs,keyvaultkeys,keyvaults,mysqldatabases,mysqlfirewallrules,mysqlservers,mysqlusers,mysqlvnetrules,postgresqldatabases,postgresqlfirewallrules,postgresqlservers,postgresqlusers,postgresqlvnetrules,rediscacheactions,rediscachefirewallrules,rediscaches,resourcegroups,storageaccounts,virtualnetworks}.azure.microsoft.com.yaml
