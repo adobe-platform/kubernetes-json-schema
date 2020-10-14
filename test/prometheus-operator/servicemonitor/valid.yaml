@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: test
+  labels:
+    name: test
+spec:
+  endpoints:
+    - honorLabels: true
+      targetPort: 9384
+  selector:
+    matchLabels:
+      test: enabled
+  namespaceSelector:
+    matchLabels:
+      name: default
