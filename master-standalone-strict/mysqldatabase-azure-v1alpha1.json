@@ -16,6 +16,7 @@
       "description": "MySQLDatabaseSpec defines the desired state of MySQLDatabase",
       "properties": {
         "resourceGroup": {
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },

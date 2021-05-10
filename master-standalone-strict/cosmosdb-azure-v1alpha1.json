@@ -103,6 +103,7 @@
           "additionalProperties": false
         },
         "resourceGroup": {
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },

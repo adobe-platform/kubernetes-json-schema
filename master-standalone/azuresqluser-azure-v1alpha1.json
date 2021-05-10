@@ -23,6 +23,7 @@
           "type": "string"
         },
         "dbName": {
+          "minLength": 1,
           "type": "string"
         },
         "keyVaultSecretFormats": {
@@ -38,6 +39,7 @@
           "type": "string"
         },
         "resourceGroup": {
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },
@@ -48,7 +50,7 @@
           "type": "array"
         },
         "server": {
-          "description": "INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run \"make\" to regenerate code after modifying this file",
+          "minLength": 1,
           "type": "string"
         },
         "username": {
