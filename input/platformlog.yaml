@@ -1,0 +1,177 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: envoy
+  namespace: heptio-contour
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluent-bit-audit
+  namespace: kube-system
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: platformlogs.adobeplatform.adobe.io
+spec:
+  group: adobeplatform.adobe.io
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        properties:
+          metadata:
+            type: object
+          spec:
+            properties:
+              inputs:
+                items:
+                  description: Log types - at least 1 input must be specified
+                  oneOf:
+                  - required:
+                    - envoy
+                  - required:
+                    - event
+                  - required:
+                    - audit
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - envoy
+                      - event
+                      - audit
+                    envoy:
+                      description: Envoy input
+                      properties:
+                        fqdns:
+                          description: list of fqdns
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    event:
+                      description: K8s Event input
+                      type: object
+                    audit:
+                      description: K8s Audit input
+                      type: object
+                  type: object
+                type: array
+              output:
+                description: Log destination - only 1 output can be specified
+                items:
+                  description: Only splunk is supported
+                  oneOf:
+                  - required:
+                    - splunk
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - splunk
+                    splunk:
+                      description: Splunk output
+                      properties:
+                        name:
+                          description: the name of the configured splunk server to send the log to
+                          type: string
+                        index:
+                          description: the splunk index
+                          type: string
+                        envoyHTTPCodeFilter:
+                          description: HTTP status code log filter
+                          type: string
+                          enum:
+                          - all
+                          - not2xx
+                          - 5xx
+                          - errors
+                          - none
+                      required:
+                      - name
+                      - index
+                      type: object
+                  type: object
+                type: array
+            type: object
+          status:
+            description: current state of the PlatformLog
+            properties:
+              currentStatus:
+                type: string
+              description:
+                type: string
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object # openAPIV3Schema
+    additionalPrinterColumns:
+    - name: Input (Envoy)
+      jsonPath: .spec.inputs[0].envoy.fqdns[0]
+      type: string
+    - name: Output (Splunk)
+      jsonPath: .spec.output[0].splunk.index
+      type: string
+    - name: Status
+      jsonPath: .status.currentStatus
+      type: string
+    - name: Status description
+      jsonPath: .status.description
+      type: string
+  scope: Namespaced
+  names:
+    plural: platformlogs
+    singular: platformlog
+    kind: PlatformLog
+    shortNames:
+    - pl
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: platform-log
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: platform-log
+subjects:
+- kind: ServiceAccount
+  name: envoy
+  namespace: heptio-contour
+- kind: ServiceAccount
+  name: eventrouter
+  namespace: kube-system
+- kind: ServiceAccount
+  name: fluent-bit-audit
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: platform-log
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - list
+  - watch
+  - get
+- apiGroups: ["adobeplatform.adobe.io"]
+  resources:
+  - platformlogs
+  verbs:
+  - get
+  - list
+  - watch
+  - put
+  - post
+  - patch

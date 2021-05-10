@@ -16,6 +16,7 @@
       "description": "AzureSQLManagedUserSpec defines the desired state of AzureSQLManagedUser",
       "properties": {
         "dbName": {
+          "minLength": 1,
           "type": "string"
         },
         "keyVaultSecretPrefix": {
@@ -31,6 +32,7 @@
           "type": "string"
         },
         "resourceGroup": {
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },
@@ -41,7 +43,7 @@
           "type": "array"
         },
         "server": {
-          "description": "INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run \"make\" to regenerate code after modifying this file",
+          "minLength": 1,
           "type": "string"
         }
       },

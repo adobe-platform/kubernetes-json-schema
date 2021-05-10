@@ -80,6 +80,7 @@
                         },
                         "resourceGroup": {
                           "description": "ResourceGroup - Name of the storage account resource group",
+                          "minLength": 1,
                           "pattern": "^[-\\w\\._\\(\\)]+$",
                           "type": "string"
                         }
@@ -135,6 +136,7 @@
           "additionalProperties": false
         },
         "resourceGroup": {
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },

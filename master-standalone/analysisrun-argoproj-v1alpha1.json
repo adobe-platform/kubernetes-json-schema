@@ -22,6 +22,17 @@
               },
               "valueFrom": {
                 "properties": {
+                  "fieldRef": {
+                    "properties": {
+                      "fieldPath": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "fieldPath"
+                    ],
+                    "type": "object"
+                  },
                   "secretKeyRef": {
                     "properties": {
                       "key": {
@@ -81,6 +92,20 @@
               },
               "provider": {
                 "properties": {
+                  "datadog": {
+                    "properties": {
+                      "interval": {
+                        "type": "string"
+                      },
+                      "query": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "type": "object"
+                  },
                   "job": {
                     "properties": {
                       "metadata": {
@@ -3183,6 +3208,9 @@
                                         "format": "int64",
                                         "type": "integer"
                                       },
+                                      "fsGroupChangePolicy": {
+                                        "type": "string"
+                                      },
                                       "runAsGroup": {
                                         "format": "int64",
                                         "type": "integer"
@@ -4131,6 +4159,20 @@
                       "scopes",
                       "storageAccountName",
                       "threshold"
+                    ],
+                    "type": "object"
+                  },
+                  "newRelic": {
+                    "properties": {
+                      "profile": {
+                        "type": "string"
+                      },
+                      "query": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "query"
                     ],
                     "type": "object"
                   },

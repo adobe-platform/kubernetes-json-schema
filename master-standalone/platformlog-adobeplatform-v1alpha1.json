@@ -1,0 +1,136 @@
+{
+  "properties": {
+    "metadata": {
+      "type": "object"
+    },
+    "spec": {
+      "properties": {
+        "inputs": {
+          "items": {
+            "description": "Log types - at least 1 input must be specified",
+            "oneOf": [
+              {
+                "required": [
+                  "envoy"
+                ]
+              },
+              {
+                "required": [
+                  "event"
+                ]
+              },
+              {
+                "required": [
+                  "audit"
+                ]
+              }
+            ],
+            "properties": {
+              "audit": {
+                "description": "K8s Audit input",
+                "type": "object"
+              },
+              "envoy": {
+                "description": "Envoy input",
+                "properties": {
+                  "fqdns": {
+                    "description": "list of fqdns",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "event": {
+                "description": "K8s Event input",
+                "type": "object"
+              },
+              "type": {
+                "enum": [
+                  "envoy",
+                  "event",
+                  "audit"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "output": {
+          "description": "Log destination - only 1 output can be specified",
+          "items": {
+            "description": "Only splunk is supported",
+            "oneOf": [
+              {
+                "required": [
+                  "splunk"
+                ]
+              }
+            ],
+            "properties": {
+              "splunk": {
+                "description": "Splunk output",
+                "properties": {
+                  "envoyHTTPCodeFilter": {
+                    "description": "HTTP status code log filter",
+                    "enum": [
+                      "all",
+                      "not2xx",
+                      "5xx",
+                      "errors",
+                      "none"
+                    ],
+                    "type": "string"
+                  },
+                  "index": {
+                    "description": "the splunk index",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "the name of the configured splunk server to send the log to",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "index"
+                ],
+                "type": "object"
+              },
+              "type": {
+                "enum": [
+                  "splunk"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "status": {
+      "description": "current state of the PlatformLog",
+      "properties": {
+        "currentStatus": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "type": "object"
+}

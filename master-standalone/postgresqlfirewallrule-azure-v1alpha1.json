@@ -20,6 +20,7 @@
         },
         "resourceGroup": {
           "description": "INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run \"make\" to regenerate code after modifying this file",
+          "minLength": 1,
           "pattern": "^[-\\w\\._\\(\\)]+$",
           "type": "string"
         },
