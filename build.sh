@@ -68,4 +68,3 @@ crd_to_json_schema cilium https://raw.githubusercontent.com/cilium/cilium/master
 crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-controllers-k8s/elasticache-controller/main/helm/crds/elasticache.services.k8s.{aws_cacheparametergroups,aws_cachesubnetgroups,aws_replicationgroups,aws_snapshots}.yaml
 crd_to_json_schema dynamodb-controller https://raw.githubusercontent.com/aws-controllers-k8s/dynamodb-controller/main/helm/crds/dynamodb.services.k8s.{aws_backups,aws_globaltables,aws_tables}.yaml
 crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/master/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
-crd_to_json_schema platformlog https://git.corp.adobe.com/raw/adobe-platform/k8s-infrastructure/master/src/resources/manifests/platform-log.yaml
