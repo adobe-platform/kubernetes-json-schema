@@ -8,14 +8,12 @@
           "properties": {
             "annotations": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"
             },
             "labels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"
@@ -70,7 +68,6 @@
                 "command": {
                   "description": "Command to run.",
                   "items": {
-                    "format": "string",
                     "type": "string"
                   },
                   "type": "array"
@@ -87,7 +84,6 @@
               "properties": {
                 "host": {
                   "description": "Host name to connect to, defaults to the pod IP.",
-                  "format": "string",
                   "type": "string"
                 },
                 "httpHeaders": {
@@ -95,11 +91,9 @@
                   "items": {
                     "properties": {
                       "name": {
-                        "format": "string",
                         "type": "string"
                       },
                       "value": {
-                        "format": "string",
                         "type": "string"
                       }
                     },
@@ -109,7 +103,6 @@
                 },
                 "path": {
                   "description": "Path to access on the HTTP server.",
-                  "format": "string",
                   "type": "string"
                 },
                 "port": {
@@ -117,7 +110,6 @@
                   "type": "integer"
                 },
                 "scheme": {
-                  "format": "string",
                   "type": "string"
                 }
               },
@@ -142,7 +134,6 @@
               "description": "Health is determined by if the proxy is able to connect.",
               "properties": {
                 "host": {
-                  "format": "string",
                   "type": "string"
                 },
                 "port": {
@@ -163,12 +154,10 @@
           "description": "Template to be used for the generation of `WorkloadEntry` resources that belong to this `WorkloadGroup`.",
           "properties": {
             "address": {
-              "format": "string",
               "type": "string"
             },
             "labels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "description": "One or more labels associated with the endpoint.",
@@ -176,11 +165,9 @@
             },
             "locality": {
               "description": "The locality associated with the endpoint.",
-              "format": "string",
               "type": "string"
             },
             "network": {
-              "format": "string",
               "type": "string"
             },
             "ports": {
@@ -191,7 +178,6 @@
               "type": "object"
             },
             "serviceAccount": {
-              "format": "string",
               "type": "string"
             },
             "weight": {

@@ -36,7 +36,6 @@
           "properties": {
             "name": {
               "description": "Specifies the name of the extension provider.",
-              "format": "string",
               "type": "string"
             }
           },
@@ -56,7 +55,6 @@
                         "ipBlocks": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -64,7 +62,6 @@
                         "namespaces": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -72,7 +69,6 @@
                         "notIpBlocks": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -80,7 +76,6 @@
                         "notNamespaces": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -88,7 +83,6 @@
                         "notPrincipals": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -96,7 +90,6 @@
                         "notRemoteIpBlocks": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -104,7 +97,6 @@
                         "notRequestPrincipals": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -112,7 +104,6 @@
                         "principals": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -120,7 +111,6 @@
                         "remoteIpBlocks": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -128,7 +118,6 @@
                         "requestPrincipals": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -151,7 +140,6 @@
                         "hosts": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -159,7 +147,6 @@
                         "methods": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -167,7 +154,6 @@
                         "notHosts": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -175,7 +161,6 @@
                         "notMethods": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -183,7 +168,6 @@
                         "notPaths": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -191,7 +175,6 @@
                         "notPorts": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -199,7 +182,6 @@
                         "paths": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -207,7 +189,6 @@
                         "ports": {
                           "description": "Optional.",
                           "items": {
-                            "format": "string",
                             "type": "string"
                           },
                           "type": "array"
@@ -226,13 +207,11 @@
                   "properties": {
                     "key": {
                       "description": "The name of an Istio attribute.",
-                      "format": "string",
                       "type": "string"
                     },
                     "notValues": {
                       "description": "Optional.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -240,7 +219,6 @@
                     "values": {
                       "description": "Optional.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -260,7 +238,6 @@
           "properties": {
             "matchLabels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"

@@ -6,7 +6,6 @@
         "addresses": {
           "description": "The virtual IP addresses associated with the service.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -16,12 +15,10 @@
           "items": {
             "properties": {
               "address": {
-                "format": "string",
                 "type": "string"
               },
               "labels": {
                 "additionalProperties": {
-                  "format": "string",
                   "type": "string"
                 },
                 "description": "One or more labels associated with the endpoint.",
@@ -29,11 +26,9 @@
               },
               "locality": {
                 "description": "The locality associated with the endpoint.",
-                "format": "string",
                 "type": "string"
               },
               "network": {
-                "format": "string",
                 "type": "string"
               },
               "ports": {
@@ -44,7 +39,6 @@
                 "type": "object"
               },
               "serviceAccount": {
-                "format": "string",
                 "type": "string"
               },
               "weight": {
@@ -59,7 +53,6 @@
         "exportTo": {
           "description": "A list of namespaces to which this service is exported.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -67,7 +60,6 @@
         "hosts": {
           "description": "The hosts associated with the ServiceEntry.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -85,7 +77,6 @@
             "properties": {
               "name": {
                 "description": "Label assigned to the port.",
-                "format": "string",
                 "type": "string"
               },
               "number": {
@@ -94,7 +85,6 @@
               },
               "protocol": {
                 "description": "The protocol exposed on the port.",
-                "format": "string",
                 "type": "string"
               },
               "targetPort": {
@@ -116,7 +106,6 @@
         },
         "subjectAltNames": {
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -126,7 +115,6 @@
           "properties": {
             "labels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"

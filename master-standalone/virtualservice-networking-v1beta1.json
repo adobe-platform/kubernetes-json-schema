@@ -6,7 +6,6 @@
         "exportTo": {
           "description": "A list of namespaces to which this virtual service is exported.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -14,7 +13,6 @@
         "gateways": {
           "description": "The names of gateways and sidecars that should apply these routes.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -22,7 +20,6 @@
         "hosts": {
           "description": "The destination hosts to which traffic is being sent.",
           "items": {
-            "format": "string",
             "type": "string"
           },
           "type": "array"
@@ -40,7 +37,6 @@
                   },
                   "allowHeaders": {
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
@@ -48,7 +44,6 @@
                   "allowMethods": {
                     "description": "List of HTTP methods allowed to access the resource.",
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
@@ -56,7 +51,6 @@
                   "allowOrigin": {
                     "description": "The list of origins that are allowed to perform CORS requests.",
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
@@ -104,16 +98,13 @@
                       ],
                       "properties": {
                         "exact": {
-                          "format": "string",
                           "type": "string"
                         },
                         "prefix": {
-                          "format": "string",
                           "type": "string"
                         },
                         "regex": {
                           "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -123,7 +114,6 @@
                   },
                   "exposeHeaders": {
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
@@ -138,12 +128,10 @@
                 "properties": {
                   "name": {
                     "description": "Name specifies the name of the delegate VirtualService.",
-                    "format": "string",
                     "type": "string"
                   },
                   "namespace": {
                     "description": "Namespace specifies the namespace where the delegate VirtualService resides.",
-                    "format": "string",
                     "type": "string"
                   }
                 },
@@ -193,11 +181,9 @@
                     ],
                     "properties": {
                       "grpcStatus": {
-                        "format": "string",
                         "type": "string"
                       },
                       "http2Error": {
-                        "format": "string",
                         "type": "string"
                       },
                       "httpStatus": {
@@ -282,21 +268,18 @@
                     "properties": {
                       "add": {
                         "additionalProperties": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "object"
                       },
                       "remove": {
                         "items": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "array"
                       },
                       "set": {
                         "additionalProperties": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "object"
@@ -308,21 +291,18 @@
                     "properties": {
                       "add": {
                         "additionalProperties": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "object"
                       },
                       "remove": {
                         "items": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "array"
                       },
                       "set": {
                         "additionalProperties": {
-                          "format": "string",
                           "type": "string"
                         },
                         "type": "object"
@@ -377,16 +357,13 @@
                       ],
                       "properties": {
                         "exact": {
-                          "format": "string",
                           "type": "string"
                         },
                         "prefix": {
-                          "format": "string",
                           "type": "string"
                         },
                         "regex": {
                           "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -395,7 +372,6 @@
                     "gateways": {
                       "description": "Names of gateways where the rule should be applied.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -442,16 +418,13 @@
                         ],
                         "properties": {
                           "exact": {
-                            "format": "string",
                             "type": "string"
                           },
                           "prefix": {
-                            "format": "string",
                             "type": "string"
                           },
                           "regex": {
                             "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                            "format": "string",
                             "type": "string"
                           }
                         },
@@ -504,16 +477,13 @@
                       ],
                       "properties": {
                         "exact": {
-                          "format": "string",
                           "type": "string"
                         },
                         "prefix": {
-                          "format": "string",
                           "type": "string"
                         },
                         "regex": {
                           "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -521,7 +491,6 @@
                     },
                     "name": {
                       "description": "The name assigned to a match.",
-                      "format": "string",
                       "type": "string"
                     },
                     "port": {
@@ -570,16 +539,13 @@
                         ],
                         "properties": {
                           "exact": {
-                            "format": "string",
                             "type": "string"
                           },
                           "prefix": {
-                            "format": "string",
                             "type": "string"
                           },
                           "regex": {
                             "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                            "format": "string",
                             "type": "string"
                           }
                         },
@@ -629,16 +595,13 @@
                       ],
                       "properties": {
                         "exact": {
-                          "format": "string",
                           "type": "string"
                         },
                         "prefix": {
-                          "format": "string",
                           "type": "string"
                         },
                         "regex": {
                           "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -646,14 +609,12 @@
                     },
                     "sourceLabels": {
                       "additionalProperties": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "object"
                     },
                     "sourceNamespace": {
                       "description": "Source namespace constraining the applicability of a rule to workloads in that namespace.",
-                      "format": "string",
                       "type": "string"
                     },
                     "uri": {
@@ -697,16 +658,13 @@
                       ],
                       "properties": {
                         "exact": {
-                          "format": "string",
                           "type": "string"
                         },
                         "prefix": {
-                          "format": "string",
                           "type": "string"
                         },
                         "regex": {
                           "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -754,16 +712,13 @@
                         ],
                         "properties": {
                           "exact": {
-                            "format": "string",
                             "type": "string"
                           },
                           "prefix": {
-                            "format": "string",
                             "type": "string"
                           },
                           "regex": {
                             "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
-                            "format": "string",
                             "type": "string"
                           }
                         },
@@ -781,7 +736,6 @@
                 "properties": {
                   "host": {
                     "description": "The name of a service from the service registry.",
-                    "format": "string",
                     "type": "string"
                   },
                   "port": {
@@ -795,7 +749,6 @@
                   },
                   "subset": {
                     "description": "The name of a subset within the service.",
-                    "format": "string",
                     "type": "string"
                   }
                 },
@@ -823,21 +776,18 @@
               },
               "name": {
                 "description": "The name assigned to the route for debugging purposes.",
-                "format": "string",
                 "type": "string"
               },
               "redirect": {
                 "description": "A HTTP rule can either redirect or forward (default) traffic.",
                 "properties": {
                   "authority": {
-                    "format": "string",
                     "type": "string"
                   },
                   "redirectCode": {
                     "type": "integer"
                   },
                   "uri": {
-                    "format": "string",
                     "type": "string"
                   }
                 },
@@ -857,7 +807,6 @@
                   },
                   "retryOn": {
                     "description": "Specifies the conditions under which retry takes place.",
-                    "format": "string",
                     "type": "string"
                   },
                   "retryRemoteLocalities": {
@@ -873,11 +822,9 @@
                 "properties": {
                   "authority": {
                     "description": "rewrite the Authority/Host header with this value.",
-                    "format": "string",
                     "type": "string"
                   },
                   "uri": {
-                    "format": "string",
                     "type": "string"
                   }
                 },
@@ -891,7 +838,6 @@
                       "properties": {
                         "host": {
                           "description": "The name of a service from the service registry.",
-                          "format": "string",
                           "type": "string"
                         },
                         "port": {
@@ -905,7 +851,6 @@
                         },
                         "subset": {
                           "description": "The name of a subset within the service.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -917,21 +862,18 @@
                           "properties": {
                             "add": {
                               "additionalProperties": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "object"
                             },
                             "remove": {
                               "items": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "array"
                             },
                             "set": {
                               "additionalProperties": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "object"
@@ -943,21 +885,18 @@
                           "properties": {
                             "add": {
                               "additionalProperties": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "object"
                             },
                             "remove": {
                               "items": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "array"
                             },
                             "set": {
                               "additionalProperties": {
-                                "format": "string",
                                 "type": "string"
                               },
                               "type": "object"
@@ -996,7 +935,6 @@
                     "destinationSubnets": {
                       "description": "IPv4 or IPv6 ip addresses of destination with optional subnet.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -1004,7 +942,6 @@
                     "gateways": {
                       "description": "Names of gateways where the rule should be applied.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -1015,19 +952,16 @@
                     },
                     "sourceLabels": {
                       "additionalProperties": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "object"
                     },
                     "sourceNamespace": {
                       "description": "Source namespace constraining the applicability of a rule to workloads in that namespace.",
-                      "format": "string",
                       "type": "string"
                     },
                     "sourceSubnet": {
                       "description": "IPv4 or IPv6 ip address of source with optional subnet.",
-                      "format": "string",
                       "type": "string"
                     }
                   },
@@ -1043,7 +977,6 @@
                       "properties": {
                         "host": {
                           "description": "The name of a service from the service registry.",
-                          "format": "string",
                           "type": "string"
                         },
                         "port": {
@@ -1057,7 +990,6 @@
                         },
                         "subset": {
                           "description": "The name of a subset within the service.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -1086,7 +1018,6 @@
                     "destinationSubnets": {
                       "description": "IPv4 or IPv6 ip addresses of destination with optional subnet.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -1094,7 +1025,6 @@
                     "gateways": {
                       "description": "Names of gateways where the rule should be applied.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
@@ -1106,21 +1036,18 @@
                     "sniHosts": {
                       "description": "SNI (server name indicator) to match on.",
                       "items": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "array"
                     },
                     "sourceLabels": {
                       "additionalProperties": {
-                        "format": "string",
                         "type": "string"
                       },
                       "type": "object"
                     },
                     "sourceNamespace": {
                       "description": "Source namespace constraining the applicability of a rule to workloads in that namespace.",
-                      "format": "string",
                       "type": "string"
                     }
                   },
@@ -1136,7 +1063,6 @@
                       "properties": {
                         "host": {
                           "description": "The name of a service from the service registry.",
-                          "format": "string",
                           "type": "string"
                         },
                         "port": {
@@ -1150,7 +1076,6 @@
                         },
                         "subset": {
                           "description": "The name of a subset within the service.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
