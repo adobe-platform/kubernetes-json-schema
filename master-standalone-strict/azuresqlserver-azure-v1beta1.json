@@ -25,7 +25,7 @@
         },
         "resourceGroup": {
           "minLength": 1,
-          "pattern": "^[-\\w\\._\\(\\)]+$",
+          "pattern": "^[-\\w\\._\\(\\)\\{\\}]+$",
           "type": "string"
         }
       },

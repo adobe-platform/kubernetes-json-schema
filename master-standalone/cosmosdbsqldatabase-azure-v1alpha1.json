@@ -34,7 +34,7 @@
         "resourceGroup": {
           "description": "ResourceGroup is the resource group the CosmosDBSQLDatabase will be created in.",
           "minLength": 1,
-          "pattern": "^[-\\w\\._\\(\\)]+$",
+          "pattern": "^[-\\w\\._\\(\\)\\{\\}]+$",
           "type": "string"
         },
         "tags": {
