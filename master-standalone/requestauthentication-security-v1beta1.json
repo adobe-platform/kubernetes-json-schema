@@ -9,7 +9,6 @@
             "properties": {
               "audiences": {
                 "items": {
-                  "format": "string",
                   "type": "string"
                 },
                 "type": "array"
@@ -24,12 +23,10 @@
                   "properties": {
                     "name": {
                       "description": "The HTTP header name.",
-                      "format": "string",
                       "type": "string"
                     },
                     "prefix": {
                       "description": "The prefix that should be stripped before decoding the token.",
-                      "format": "string",
                       "type": "string"
                     }
                   },
@@ -40,31 +37,25 @@
               "fromParams": {
                 "description": "List of query parameters from which JWT is expected.",
                 "items": {
-                  "format": "string",
                   "type": "string"
                 },
                 "type": "array"
               },
               "issuer": {
                 "description": "Identifies the issuer that issued the JWT.",
-                "format": "string",
                 "type": "string"
               },
               "jwks": {
                 "description": "JSON Web Key Set of public keys to validate signature of the JWT.",
-                "format": "string",
                 "type": "string"
               },
               "jwksUri": {
-                "format": "string",
                 "type": "string"
               },
               "jwks_uri": {
-                "format": "string",
                 "type": "string"
               },
               "outputPayloadToHeader": {
-                "format": "string",
                 "type": "string"
               }
             },
@@ -77,7 +68,6 @@
           "properties": {
             "matchLabels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"

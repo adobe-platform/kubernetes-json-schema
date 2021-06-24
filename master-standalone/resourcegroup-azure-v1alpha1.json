@@ -50,6 +50,13 @@
         "pollingUrl": {
           "type": "string"
         },
+        "pollingUrlKind": {
+          "enum": [
+            "CreateOrUpdate",
+            "Delete"
+          ],
+          "type": "string"
+        },
         "provisioned": {
           "type": "boolean"
         },

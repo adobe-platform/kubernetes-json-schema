@@ -8,7 +8,6 @@
           "properties": {
             "matchLabels": {
               "additionalProperties": {
-                "format": "string",
                 "type": "string"
               },
               "type": "object"
@@ -66,12 +65,10 @@
                       "properties": {
                         "defaultValue": {
                           "description": "Optional.",
-                          "format": "string",
                           "type": "string"
                         },
                         "name": {
                           "description": "Name of the environment variable from which to extract the tag value.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -82,12 +79,10 @@
                       "properties": {
                         "defaultValue": {
                           "description": "Optional.",
-                          "format": "string",
                           "type": "string"
                         },
                         "name": {
                           "description": "Name of the header from which to extract the tag value.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -98,7 +93,6 @@
                       "properties": {
                         "value": {
                           "description": "The tag value to use.",
-                          "format": "string",
                           "type": "string"
                         }
                       },
@@ -121,7 +115,6 @@
                   "properties": {
                     "name": {
                       "description": "Required.",
-                      "format": "string",
                       "type": "string"
                     }
                   },

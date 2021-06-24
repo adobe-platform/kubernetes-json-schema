@@ -5,7 +5,6 @@
       "properties": {
         "selector": {
           "additionalProperties": {
-            "format": "string",
             "type": "string"
           },
           "type": "object"
@@ -15,31 +14,26 @@
           "items": {
             "properties": {
               "bind": {
-                "format": "string",
                 "type": "string"
               },
               "defaultEndpoint": {
-                "format": "string",
                 "type": "string"
               },
               "hosts": {
                 "description": "One or more hosts exposed by this gateway.",
                 "items": {
-                  "format": "string",
                   "type": "string"
                 },
                 "type": "array"
               },
               "name": {
                 "description": "An optional name of the server, when set must be unique across all servers.",
-                "format": "string",
                 "type": "string"
               },
               "port": {
                 "properties": {
                   "name": {
                     "description": "Label assigned to the port.",
-                    "format": "string",
                     "type": "string"
                   },
                   "number": {
@@ -48,7 +42,6 @@
                   },
                   "protocol": {
                     "description": "The protocol exposed on the port.",
-                    "format": "string",
                     "type": "string"
                   },
                   "targetPort": {
@@ -62,19 +55,16 @@
                 "properties": {
                   "caCertificates": {
                     "description": "REQUIRED if mode is `MUTUAL`.",
-                    "format": "string",
                     "type": "string"
                   },
                   "cipherSuites": {
                     "description": "Optional: If specified, only support the specified cipher list.",
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
                   },
                   "credentialName": {
-                    "format": "string",
                     "type": "string"
                   },
                   "httpsRedirect": {
@@ -114,31 +104,26 @@
                   },
                   "privateKey": {
                     "description": "REQUIRED if mode is `SIMPLE` or `MUTUAL`.",
-                    "format": "string",
                     "type": "string"
                   },
                   "serverCertificate": {
                     "description": "REQUIRED if mode is `SIMPLE` or `MUTUAL`.",
-                    "format": "string",
                     "type": "string"
                   },
                   "subjectAltNames": {
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
                   },
                   "verifyCertificateHash": {
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
                   },
                   "verifyCertificateSpki": {
                     "items": {
-                      "format": "string",
                       "type": "string"
                     },
                     "type": "array"
