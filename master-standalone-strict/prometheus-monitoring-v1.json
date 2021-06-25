@@ -6309,10 +6309,6 @@
                   },
                   "type": "array"
                 },
-                "clientAuthType": {
-                  "description": "Server policy for client authentication. Maps to ClientAuth Policies. For more detail on clientAuth options: https://golang.org/pkg/crypto/tls/#ClientAuthType",
-                  "type": "string"
-                },
                 "client_ca": {
                   "description": "Contains the CA certificate for client certificate authentication to the server.",
                   "properties": {
@@ -6363,6 +6359,10 @@
                   },
                   "type": "object",
                   "additionalProperties": false
+                },
+                "clientAuthType": {
+                  "description": "Server policy for client authentication. Maps to ClientAuth Policies. For more detail on clientAuth options: https://golang.org/pkg/crypto/tls/#ClientAuthType",
+                  "type": "string"
                 },
                 "curvePreferences": {
                   "description": "Elliptic curves that will be used in an ECDHE handshake, in preference order. Available curves are documented in the go documentation: https://golang.org/pkg/crypto/tls/#CurveID",

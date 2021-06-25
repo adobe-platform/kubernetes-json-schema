@@ -334,7 +334,7 @@
                 "requiredDuringSchedulingIgnoredDuringExecution": {
                   "description": "If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.",
                   "items": {
-                    "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key \u003ctopologyKey\u003e matches that of any node on which a pod of the set of pods is running",
+                    "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running",
                     "properties": {
                       "labelSelector": {
                         "description": "A label query over a set of resources, in this case pods.",
@@ -487,7 +487,7 @@
                 "requiredDuringSchedulingIgnoredDuringExecution": {
                   "description": "If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.",
                   "items": {
-                    "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key \u003ctopologyKey\u003e matches that of any node on which a pod of the set of pods is running",
+                    "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running",
                     "properties": {
                       "labelSelector": {
                         "description": "A label query over a set of resources, in this case pods.",
@@ -993,7 +993,7 @@
           "type": "string"
         },
         "configMaps": {
-          "description": "ConfigMaps is a list of ConfigMaps in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods. The ConfigMaps are mounted into /etc/prometheus/configmaps/\u003cconfigmap-name\u003e.",
+          "description": "ConfigMaps is a list of ConfigMaps in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods. The ConfigMaps are mounted into /etc/prometheus/configmaps/<configmap-name>.",
           "items": {
             "type": "string"
           },
@@ -1522,7 +1522,7 @@
                   "description": "ContainerPort represents a network port in a single container.",
                   "properties": {
                     "containerPort": {
-                      "description": "Number of port to expose on the pod's IP address. This must be a valid port number, 0 \u003c x \u003c 65536.",
+                      "description": "Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.",
                       "format": "int32",
                       "type": "integer"
                     },
@@ -1531,7 +1531,7 @@
                       "type": "string"
                     },
                     "hostPort": {
-                      "description": "Number of port to expose on the host. If specified, this must be a valid port number, 0 \u003c x \u003c 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.",
+                      "description": "Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.",
                       "format": "int32",
                       "type": "integer"
                     },
@@ -2049,7 +2049,7 @@
           "type": "array"
         },
         "enforcedNamespaceLabel": {
-          "description": "EnforcedNamespaceLabel If set, a label will be added to \n 1. all user-metrics (created by `ServiceMonitor`, `PodMonitor` and `ProbeConfig` object) and 2. in all `PrometheusRule` objects (except the ones excluded in `prometheusRulesExcludedFromEnforce`) to    * alerting \u0026 recording rules and    * the metrics used in their expressions (`expr`). \n Label name is this field's value. Label value is the namespace of the created object (mentioned above).",
+          "description": "EnforcedNamespaceLabel If set, a label will be added to \n 1. all user-metrics (created by `ServiceMonitor`, `PodMonitor` and `ProbeConfig` object) and 2. in all `PrometheusRule` objects (except the ones excluded in `prometheusRulesExcludedFromEnforce`) to    * alerting & recording rules and    * the metrics used in their expressions (`expr`). \n Label name is this field's value. Label value is the namespace of the created object (mentioned above).",
           "type": "string"
         },
         "enforcedSampleLimit": {
@@ -2622,7 +2622,7 @@
                   "description": "ContainerPort represents a network port in a single container.",
                   "properties": {
                     "containerPort": {
-                      "description": "Number of port to expose on the pod's IP address. This must be a valid port number, 0 \u003c x \u003c 65536.",
+                      "description": "Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.",
                       "format": "int32",
                       "type": "integer"
                     },
@@ -2631,7 +2631,7 @@
                       "type": "string"
                     },
                     "hostPort": {
-                      "description": "Number of port to expose on the host. If specified, this must be a valid port number, 0 \u003c x \u003c 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.",
+                      "description": "Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.",
                       "format": "int32",
                       "type": "integer"
                     },
@@ -3415,7 +3415,7 @@
           "type": "object"
         },
         "queryLogFile": {
-          "description": "QueryLogFile specifies the file to which PromQL queries are logged. Note that this location must be writable, and can be persisted using an attached volume. Alternatively, the location can be set to a stdout location such as `/dev/stdout` to log querie information to the default Prometheus log stream. This is only available in versions of Prometheus \u003e= 2.16.0. For more details, see the Prometheus docs (https://prometheus.io/docs/guides/query-log/)",
+          "description": "QueryLogFile specifies the file to which PromQL queries are logged. Note that this location must be writable, and can be persisted using an attached volume. Alternatively, the location can be set to a stdout location such as `/dev/stdout` to log querie information to the default Prometheus log stream. This is only available in versions of Prometheus >= 2.16.0. For more details, see the Prometheus docs (https://prometheus.io/docs/guides/query-log/)",
           "type": "string"
         },
         "remoteRead": {
@@ -3939,7 +3939,7 @@
               "writeRelabelConfigs": {
                 "description": "The list of remote write relabel configurations.",
                 "items": {
-                  "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion. It defines `\u003cmetric_relabel_configs\u003e`-section of Prometheus configuration. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
+                  "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion. It defines `<metric_relabel_configs>`-section of Prometheus configuration. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
                   "properties": {
                     "action": {
                       "description": "Action to perform based on regex matching. Default is 'replace'",
@@ -4162,7 +4162,7 @@
           "type": "string"
         },
         "secrets": {
-          "description": "Secrets is a list of Secrets in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods. The Secrets are mounted into /etc/prometheus/secrets/\u003csecret-name\u003e.",
+          "description": "Secrets is a list of Secrets in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods. The Secrets are mounted into /etc/prometheus/secrets/<secret-name>.",
           "items": {
             "type": "string"
           },
@@ -4918,7 +4918,7 @@
         "tolerations": {
           "description": "If specified, the pod's tolerations.",
           "items": {
-            "description": "The pod this Toleration is attached to tolerates any taint that matches the triple \u003ckey,value,effect\u003e using the matching operator \u003coperator\u003e.",
+            "description": "The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.",
             "properties": {
               "effect": {
                 "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
@@ -4999,7 +4999,7 @@
                 "type": "integer"
               },
               "topologyKey": {
-                "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each \u003ckey, value\u003e as a \"bucket\", and try to put balanced number of pods into each bucket. It's a required field.",
+                "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. It's a required field.",
                 "type": "string"
               },
               "whenUnsatisfiable": {
@@ -5480,7 +5480,7 @@
                 "description": "Flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running",
                 "properties": {
                   "datasetName": {
-                    "description": "Name of the dataset stored as metadata -\u003e name on the dataset for Flocker should be considered as deprecated",
+                    "description": "Name of the dataset stored as metadata -> name on the dataset for Flocker should be considered as deprecated",
                     "type": "string"
                   },
                   "datasetUUID": {
@@ -5592,7 +5592,7 @@
                     "type": "string"
                   },
                   "initiatorName": {
-                    "description": "Custom iSCSI Initiator Name. If initiatorName is specified with iscsiInterface simultaneously, new iSCSI interface \u003ctarget portal\u003e:\u003cvolume name\u003e will be created for the connection.",
+                    "description": "Custom iSCSI Initiator Name. If initiatorName is specified with iscsiInterface simultaneously, new iSCSI interface <target portal>:<volume name> will be created for the connection.",
                     "type": "string"
                   },
                   "iqn": {
@@ -6179,7 +6179,7 @@
           "type": "array"
         },
         "walCompression": {
-          "description": "Enable compression of the write-ahead log using Snappy. This flag is only available in versions of Prometheus \u003e= 2.11.0.",
+          "description": "Enable compression of the write-ahead log using Snappy. This flag is only available in versions of Prometheus >= 2.11.0.",
           "type": "boolean"
         },
         "web": {
@@ -6247,10 +6247,6 @@
                   },
                   "type": "array"
                 },
-                "clientAuthType": {
-                  "description": "Server policy for client authentication. Maps to ClientAuth Policies. For more detail on clientAuth options: https://golang.org/pkg/crypto/tls/#ClientAuthType",
-                  "type": "string"
-                },
                 "client_ca": {
                   "description": "Contains the CA certificate for client certificate authentication to the server.",
                   "properties": {
@@ -6298,6 +6294,10 @@
                     }
                   },
                   "type": "object"
+                },
+                "clientAuthType": {
+                  "description": "Server policy for client authentication. Maps to ClientAuth Policies. For more detail on clientAuth options: https://golang.org/pkg/crypto/tls/#ClientAuthType",
+                  "type": "string"
                 },
                 "curvePreferences": {
                   "description": "Elliptic curves that will be used in an ECDHE handshake, in preference order. Available curves are documented in the go documentation: https://golang.org/pkg/crypto/tls/#CurveID",

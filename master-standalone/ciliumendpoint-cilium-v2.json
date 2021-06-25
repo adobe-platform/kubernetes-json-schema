@@ -125,7 +125,7 @@
           "type": "object"
         },
         "health": {
-          "description": "Health is the overall endpoint \u0026 subcomponent health.",
+          "description": "Health is the overall endpoint & subcomponent health.",
           "properties": {
             "bpf": {
               "description": "bpf",
