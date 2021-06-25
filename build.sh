@@ -15,12 +15,14 @@ function crd_to_json_schema() {
 
   # Clean the input for compound schema docs that don't contain a yaml seperator (e.g., aso)
   perl -i -0pe 'BEGIN{undef $/;} s/(.+[^\-{3}]\s*)\napiVersion: apiextensions.k8s.io(.*)$/$1\n---\napiVersion: apiextensions.k8s.io$2/mg' "${input}"
+  # Replace known problematic strings (adds {} as allowed characters for ASO objects)
+  perl -i -0pe 's/\^\[-\\w\\._\\\(\\\)\]\+\$/\^\[-\\w\\._\\\(\\\)\\{\\}\]\+\$/g' "${input}"
 
-  for document in $(seq 0 $(($(yq read --collect --doc '*' --length "${input}") - 1))); do
-    api_version=$(yq read --doc "${document}" "${input}" apiVersion | cut --delimiter=/ --fields=2)
-    kind=$(yq read --doc "${document}" "${input}" kind)
-    crd_kind=$(yq read --doc "${document}" "${input}" spec.names.kind | tr '[:upper:]' '[:lower:]')
-    crd_group=$(yq read --doc "${document}" "${input}" spec.group | cut --delimiter=. --fields=1)
+  for document in $(seq 0 $(($(yq ea '[.] | length' "${input}") - 1))); do
+    api_version=$(yq eval "select(documentIndex == ${document}) | .apiVersion" "${input}" | cut --delimiter=/ --fields=2)
+    kind=$(yq eval "select(documentIndex == ${document}) | .kind" "${input}")
+    crd_kind=$(yq eval "select(documentIndex == ${document}) | .spec.names.kind" "${input}" | tr '[:upper:]' '[:lower:]')
+    crd_group=$(yq eval "select(documentIndex == ${document}) | .spec.group" "${input}" | cut --delimiter=. --fields=1)
 
     if [[ "${kind}" != CustomResourceDefinition ]]; then
       continue
@@ -28,19 +30,21 @@ function crd_to_json_schema() {
 
     case "${api_version}" in
       v1beta1)
-        crd_version=$(yq read --doc "${document}" "${input}" spec.version)
+        echo "apiextensions: ${api_version} documentIndex: ${document} | kind: ${kind} crd_kind: ${crd_kind} crd_group: ${crd_group}"
+        crd_version=$(yq eval "select(documentIndex == ${document}) | .spec.version" "${input}")
         if [ ! -z ${crd_version} ]; then
-          yq read --doc "${document}" --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+          yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         else
-          for crd_version in $(yq read --doc "${document}" "${input}" spec.versions.*.name); do
-            yq read --doc "${document}" --prettyPrint --tojson "${input}" spec.validation.openAPIV3Schema | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+          for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
+            yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
           done
-        fi          
+        fi
         ;;
 
       v1)
-        for crd_version in $(yq read --doc "${document}" "${input}" spec.versions.*.name); do
-          yq read --doc "${document}" --prettyPrint --tojson "${input}" "spec.versions.(name==${crd_version}).schema.openAPIV3Schema" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+        echo "apiextensions: ${api_version} documentIndex: ${document} | kind: ${kind} crd_kind: ${crd_kind} crd_group: ${crd_group}"
+        for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
+          yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.versions[] | select(.name == \"${crd_version}\") | .schema.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         done
         ;;
 
@@ -65,6 +69,9 @@ crd_to_json_schema contour https://raw.githubusercontent.com/phylake/contour/v1.
 crd_to_json_schema istio https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
 crd_to_json_schema aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts/azure-service-operator/crds/apiextensions.k8s.io_v1_customresourcedefinition_{apimgmtapis,apimservices,appinsights,appinsightsapikeys,azureloadbalancers,azurenetworkinterfaces,azurepublicipaddresses,azuresqlactions,azuresqldatabases,azuresqlfailovergroups,azuresqlfirewallrules,azuresqlmanagedusers,azuresqlservers,azuresqlusers,azuresqlvnetrules,azurevirtualmachineextensions,azurevirtualmachines,azurevmscalesets,blobcontainers,consumergroups,cosmosdbs,cosmosdbsqldatabases,eventhubnamespaces,eventhubs,keyvaultkeys,keyvaults,mysqldatabases,mysqlfirewallrules,mysqlservers,mysqlusers,mysqlvnetrules,postgresqldatabases,postgresqlfirewallrules,postgresqlservers,postgresqlusers,postgresqlvnetrules,rediscacheactions,rediscachefirewallrules,rediscaches,resourcegroups,storageaccounts,virtualnetworks}.azure.microsoft.com.yaml
 crd_to_json_schema cilium https://raw.githubusercontent.com/cilium/cilium/master/pkg/k8s/apis/cilium.io/client/crds/v2/cilium{clusterwidenetworkpolicies,endpoints,externalworkloads,identities,localredirectpolicies,networkpolicies,nodes}.yaml
-crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-controllers-k8s/elasticache-controller/main/helm/crds/elasticache.services.k8s.{aws_cacheparametergroups,aws_cachesubnetgroups,aws_replicationgroups,aws_snapshots}.yaml
 crd_to_json_schema dynamodb-controller https://raw.githubusercontent.com/aws-controllers-k8s/dynamodb-controller/main/helm/crds/dynamodb.services.k8s.{aws_backups,aws_globaltables,aws_tables}.yaml
-crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/master/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
+crd_to_json_schema aws-adopted-resources https://raw.githubusercontent.com/aws-controllers-k8s/dynamodb-controller/main/helm/crds/services.k8s.aws_adoptedresources.yaml
+crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-controllers-k8s/elasticache-controller/main/helm/crds/elasticache.services.k8s.{aws_cacheparametergroups,aws_cachesubnetgroups,aws_replicationgroups,aws_snapshots}.yaml
+crd_to_json_schema rds-controller https://raw.githubusercontent.com/aws-controllers-k8s/rds-controller/main/helm/crds/rds.services.k8s.aws_{dbinstances,dbparametergrups,dbsecuritygroups,dbsubnetgroups}.yaml
+crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/1.4.x/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
+

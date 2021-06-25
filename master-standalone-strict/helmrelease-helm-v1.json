@@ -1,5 +1,10 @@
 {
   "description": "HelmRelease is a type to represent a Helm release.",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -13,20 +18,25 @@
       "type": "object"
     },
     "spec": {
+      "type": "object",
+      "required": [
+        "chart"
+      ],
       "properties": {
         "chart": {
+          "type": "object",
           "properties": {
             "chartPullSecret": {
               "description": "ChartPullSecret holds the reference to the authentication secret for accessing the Helm repository using HTTPS basic auth. NOT IMPLEMENTED!",
+              "type": "object",
+              "required": [
+                "name"
+              ],
               "properties": {
                 "name": {
                   "type": "string"
                 }
               },
-              "required": [
-                "name"
-              ],
-              "type": "object",
               "additionalProperties": false
             },
             "git": {
@@ -51,6 +61,10 @@
             },
             "secretRef": {
               "description": "SecretRef holds the authentication secret for accessing the Git repository (over HTTPS). The credentials will be added to an HTTPS GitURL before the mirror is started.",
+              "type": "object",
+              "required": [
+                "name"
+              ],
               "properties": {
                 "name": {
                   "type": "string"
@@ -59,10 +73,6 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "name"
-              ],
-              "type": "object",
               "additionalProperties": false
             },
             "skipDepUpdate": {
@@ -74,7 +84,6 @@
               "type": "string"
             }
           },
-          "type": "object",
           "additionalProperties": false
         },
         "disableOpenAPIValidation": {
@@ -87,11 +96,11 @@
         },
         "helmVersion": {
           "description": "HelmVersion is the version of Helm to target. If not supplied, the lowest _enabled Helm version_ will be targeted. Valid HelmVersion values are: \"v2\", \"v3\"",
+          "type": "string",
           "enum": [
             "v2",
             "v3"
-          ],
-          "type": "string"
+          ]
         },
         "maxHistory": {
           "description": "MaxHistory is the maximum amount of revisions to keep for the Helm release. If not supplied, it defaults to 10.",
@@ -107,6 +116,7 @@
         },
         "rollback": {
           "description": "The rollback settings for this Helm release.",
+          "type": "object",
           "properties": {
             "disableHooks": {
               "description": "DisableHooks will mark this Helm release to prevent hooks from running during the rollback.",
@@ -122,8 +132,8 @@
             },
             "maxRetries": {
               "description": "MaxRetries is the maximum amount of upgrade retries the operator should make before bailing.",
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "recreate": {
               "description": "Recreate will mark this Helm release to `--recreate-pods` for if applicable. This performs pod restarts.",
@@ -135,15 +145,14 @@
             },
             "timeout": {
               "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during rollback.",
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "wait": {
               "description": "Wait will mark this Helm release to wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful.",
               "type": "boolean"
             }
           },
-          "type": "object",
           "additionalProperties": false
         },
         "skipCRDs": {
@@ -156,6 +165,7 @@
         },
         "test": {
           "description": "The test settings for this Helm release.",
+          "type": "object",
           "properties": {
             "cleanup": {
               "description": "Cleanup, when targeting Helm 2, determines whether to delete test pods between each test run initiated by the Helm Operator.",
@@ -171,42 +181,47 @@
             },
             "timeout": {
               "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during test.",
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
-          "type": "object",
           "additionalProperties": false
         },
         "timeout": {
           "description": "Timeout is the time to wait for any individual Kubernetes operation (like Jobs for hooks) during installation and upgrade operations.",
-          "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "format": "int64"
         },
         "valueFileSecrets": {
           "description": "ValueFileSecrets holds the local name references to secrets. DEPRECATED, use ValuesFrom.secretKeyRef instead.",
+          "type": "array",
           "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
             "properties": {
               "name": {
                 "type": "string"
               }
-            },
-            "required": [
-              "name"
-            ],
-            "type": "object"
-          },
-          "type": "array"
+            }
+          }
         },
         "values": {
           "description": "Values holds the values for this Helm release.",
           "type": "object"
         },
         "valuesFrom": {
+          "type": "array",
           "items": {
+            "type": "object",
             "properties": {
               "chartFileRef": {
                 "description": "The reference to a local chart file with release values.",
+                "type": "object",
+                "required": [
+                  "path"
+                ],
                 "properties": {
                   "optional": {
                     "description": "Optional will mark this ChartFileSelector as optional. The result of this are that operations are permitted without the source, due to it e.g. being temporarily unavailable.",
@@ -216,14 +231,14 @@
                     "description": "Path is the file path to the source relative to the chart root.",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "path"
-                ],
-                "type": "object"
+                }
               },
               "configMapKeyRef": {
                 "description": "The reference to a config map with release values.",
+                "type": "object",
+                "required": [
+                  "name"
+                ],
                 "properties": {
                   "key": {
                     "type": "string"
@@ -237,14 +252,14 @@
                   "optional": {
                     "type": "boolean"
                   }
-                },
-                "required": [
-                  "name"
-                ],
-                "type": "object"
+                }
               },
               "externalSourceRef": {
                 "description": "The reference to an external source with release values.",
+                "type": "object",
+                "required": [
+                  "url"
+                ],
                 "properties": {
                   "optional": {
                     "description": "Optional will mark this ExternalSourceSelector as optional. The result of this are that operations are permitted without the source, due to it e.g. being temporarily unavailable.",
@@ -254,14 +269,14 @@
                     "description": "URL is the URL of the external source.",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "url"
-                ],
-                "type": "object"
+                }
               },
               "secretKeyRef": {
                 "description": "The reference to a secret with release values.",
+                "type": "object",
+                "required": [
+                  "name"
+                ],
                 "properties": {
                   "key": {
                     "type": "string"
@@ -275,44 +290,41 @@
                   "optional": {
                     "type": "boolean"
                   }
-                },
-                "required": [
-                  "name"
-                ],
-                "type": "object"
+                }
               }
-            },
-            "type": "object"
-          },
-          "type": "array"
+            }
+          }
         },
         "wait": {
           "description": "Wait will mark this Helm release to wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful.",
           "type": "boolean"
         }
       },
-      "required": [
-        "chart"
-      ],
-      "type": "object",
       "additionalProperties": false
     },
     "status": {
       "description": "HelmReleaseStatus contains status information about an HelmRelease.",
+      "type": "object",
       "properties": {
         "conditions": {
           "description": "Conditions contains observations of the resource's state, e.g., has the chart which it refers to been fetched.",
+          "type": "array",
           "items": {
+            "type": "object",
+            "required": [
+              "status",
+              "type"
+            ],
             "properties": {
               "lastTransitionTime": {
                 "description": "LastTransitionTime is the timestamp corresponding to the last status change of this condition.",
-                "format": "date-time",
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               },
               "lastUpdateTime": {
                 "description": "LastUpdateTime is the timestamp corresponding to the last status update of this condition.",
-                "format": "date-time",
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               },
               "message": {
                 "description": "Message is a human readable description of the details of the last transition, complementing reason.",
@@ -324,32 +336,26 @@
               },
               "status": {
                 "description": "Status of the condition, one of ('True', 'False', 'Unknown').",
+                "type": "string",
                 "enum": [
                   "True",
                   "False",
                   "Unknown"
-                ],
-                "type": "string"
+                ]
               },
               "type": {
                 "description": "Type of the condition, one of ('ChartFetched', 'Deployed', 'Released', 'RolledBack', 'Tested').",
+                "type": "string",
                 "enum": [
                   "ChartFetched",
                   "Deployed",
                   "Released",
                   "RolledBack",
                   "Tested"
-                ],
-                "type": "string"
+                ]
               }
-            },
-            "required": [
-              "status",
-              "type"
-            ],
-            "type": "object"
-          },
-          "type": "array"
+            }
+          }
         },
         "lastAttemptedRevision": {
           "description": "LastAttemptedRevision is the revision of the latest chart sync, and may be of a failed release.",
@@ -357,11 +363,12 @@
         },
         "observedGeneration": {
           "description": "ObservedGeneration is the most recent generation observed by the operator.",
-          "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "format": "int64"
         },
         "phase": {
           "description": "Phase the release is in, one of ('ChartFetched', 'ChartFetchFailed', 'Installing', 'Upgrading', 'Deployed', 'DeployFailed', 'Testing', 'TestFailed', 'Tested', 'Succeeded', 'RollingBack', 'RolledBack', 'RollbackFailed')",
+          "type": "string",
           "enum": [
             "ChartFetched",
             "ChartFetchFailed",
@@ -377,8 +384,7 @@
             "RollingBack",
             "RolledBack",
             "RollbackFailed"
-          ],
-          "type": "string"
+          ]
         },
         "releaseName": {
           "description": "ReleaseName is the name as either supplied or generated.",
@@ -394,16 +400,10 @@
         },
         "rollbackCount": {
           "description": "RollbackCount records the amount of rollback attempts made, it is incremented after a rollback failure and reset after a successful upgrade or revision change.",
-          "format": "int64",
-          "type": "integer"
+          "type": "integer",
+          "format": "int64"
         }
-      },
-      "type": "object"
+      }
     }
-  },
-  "required": [
-    "metadata",
-    "spec"
-  ],
-  "type": "object"
+  }
 }
