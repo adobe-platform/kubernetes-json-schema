@@ -124,6 +124,10 @@
               },
               "outputName": {
                 "type": "string"
+              },
+              "serviceName": {
+                "description": "ServiceName is the name of an existing Kubernetes service which will be used to make requests to the referenced object. It has to be in the same namespace as the referenced resource. If left empty the default HTTP service of the referenced resource will be used.",
+                "type": "string"
               }
             },
             "required": [
@@ -176,7 +180,7 @@
           "type": "array"
         },
         "serviceAccountName": {
-          "description": "ServiceAccountName is used to check access from the current resource to a Elasticsearch resource in a different namespace. Can only be used if ECK is enforcing RBAC on references.",
+          "description": "ServiceAccountName is used to check access from the current resource to an Elasticsearch resource in a different namespace. Can only be used if ECK is enforcing RBAC on references.",
           "type": "string"
         },
         "version": {
