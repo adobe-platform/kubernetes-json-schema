@@ -404,6 +404,10 @@
                     },
                     "type": "array"
                   },
+                  "cidr": {
+                    "description": "CIDR is the range that the interface belongs to.",
+                    "type": "string"
+                  },
                   "gateway": {
                     "description": "Gateway is the interface's subnet's default route",
                     "type": "string"
