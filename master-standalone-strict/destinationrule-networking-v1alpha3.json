@@ -759,6 +759,10 @@
                             "credentialName": {
                               "type": "string"
                             },
+                            "insecureSkipVerify": {
+                              "nullable": true,
+                              "type": "boolean"
+                            },
                             "mode": {
                               "enum": [
                                 "DISABLE",
@@ -802,6 +806,10 @@
                       },
                       "credentialName": {
                         "type": "string"
+                      },
+                      "insecureSkipVerify": {
+                        "nullable": true,
+                        "type": "boolean"
                       },
                       "mode": {
                         "enum": [
@@ -1577,6 +1585,10 @@
                       "credentialName": {
                         "type": "string"
                       },
+                      "insecureSkipVerify": {
+                        "nullable": true,
+                        "type": "boolean"
+                      },
                       "mode": {
                         "enum": [
                           "DISABLE",
@@ -1620,6 +1632,10 @@
                 },
                 "credentialName": {
                   "type": "string"
+                },
+                "insecureSkipVerify": {
+                  "nullable": true,
+                  "type": "boolean"
                 },
                 "mode": {
                   "enum": [
