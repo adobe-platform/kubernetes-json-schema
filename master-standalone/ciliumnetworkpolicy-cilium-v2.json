@@ -42,6 +42,44 @@
           "items": {
             "description": "EgressRule contains all rule types which can be applied at egress, i.e. network traffic that originates inside the endpoint and exits the endpoint selected by the endpointSelector. \n - All members of this structure are optional. If omitted or empty, the   member will have no effect on the rule. \n - If multiple members of the structure are specified, then all members   must match in order for the rule to take effect. The exception to this   rule is the ToRequires member; the effects of any Requires field in any   rule will apply to all other rules as well. \n - ToEndpoints, ToCIDR, ToCIDRSet, ToEntities, ToServices and ToGroups are   mutually exclusive. Only one of these members may be present within an   individual rule.",
             "properties": {
+              "icmps": {
+                "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is allowed to connect to. \n Example: Any endpoint with the label \"app=httpd\" is allowed to initiate type 8 ICMP connections.",
+                "items": {
+                  "description": "ICMPRule is a list of ICMP fields.",
+                  "properties": {
+                    "fields": {
+                      "description": "Fields is a list of ICMP fields.",
+                      "items": {
+                        "description": "ICMPField is a ICMP field.",
+                        "properties": {
+                          "family": {
+                            "default": "IPv4",
+                            "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                            "enum": [
+                              "IPv4",
+                              "IPv6"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                            "maximum": 255,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "toCIDR": {
                 "description": "ToCIDR is a list of IP blocks which the endpoint subject to the rule is allowed to initiate connections. Only connections destined for outside of the cluster and not targeting the host will be subject to CIDR rules.  This will match on the destination IP address of outgoing connections. Adding a prefix into ToCIDR or into ToCIDRSet with no ExcludeCIDRs is equivalent. Overlaps are allowed between ToCIDR and ToCIDRSet. \n Example: Any endpoint with the label \"app=database-proxy\" is allowed to initiate connections to 10.2.3.0/24",
                 "items": {
@@ -625,6 +663,44 @@
           "items": {
             "description": "EgressDenyRule contains all rule types which can be applied at egress, i.e. network traffic that originates inside the endpoint and exits the endpoint selected by the endpointSelector. \n - All members of this structure are optional. If omitted or empty, the   member will have no effect on the rule. \n - If multiple members of the structure are specified, then all members   must match in order for the rule to take effect. The exception to this   rule is the ToRequires member; the effects of any Requires field in any   rule will apply to all other rules as well. \n - ToEndpoints, ToCIDR, ToCIDRSet, ToEntities, ToServices and ToGroups are   mutually exclusive. Only one of these members may be present within an   individual rule.",
             "properties": {
+              "icmps": {
+                "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is not allowed to connect to. \n Example: Any endpoint with the label \"app=httpd\" is not allowed to initiate type 8 ICMP connections.",
+                "items": {
+                  "description": "ICMPRule is a list of ICMP fields.",
+                  "properties": {
+                    "fields": {
+                      "description": "Fields is a list of ICMP fields.",
+                      "items": {
+                        "description": "ICMPField is a ICMP field.",
+                        "properties": {
+                          "family": {
+                            "default": "IPv4",
+                            "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                            "enum": [
+                              "IPv4",
+                              "IPv6"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                            "maximum": 255,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "toCIDR": {
                 "description": "ToCIDR is a list of IP blocks which the endpoint subject to the rule is allowed to initiate connections. Only connections destined for outside of the cluster and not targeting the host will be subject to CIDR rules.  This will match on the destination IP address of outgoing connections. Adding a prefix into ToCIDR or into ToCIDRSet with no ExcludeCIDRs is equivalent. Overlaps are allowed between ToCIDR and ToCIDRSet. \n Example: Any endpoint with the label \"app=database-proxy\" is allowed to initiate connections to 10.2.3.0/24",
                 "items": {
@@ -1175,6 +1251,44 @@
                 },
                 "type": "array"
               },
+              "icmps": {
+                "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can only accept incoming type 8 ICMP connections.",
+                "items": {
+                  "description": "ICMPRule is a list of ICMP fields.",
+                  "properties": {
+                    "fields": {
+                      "description": "Fields is a list of ICMP fields.",
+                      "items": {
+                        "description": "ICMPField is a ICMP field.",
+                        "properties": {
+                          "family": {
+                            "default": "IPv4",
+                            "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                            "enum": [
+                              "IPv4",
+                              "IPv6"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                            "maximum": 255,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "toPorts": {
                 "description": "ToPorts is a list of destination ports identified by port number and protocol which the endpoint subject to the rule is allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can only accept incoming connections on port 80/tcp.",
                 "items": {
@@ -1617,6 +1731,44 @@
                 },
                 "type": "array"
               },
+              "icmps": {
+                "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is not allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can not accept incoming type 8 ICMP connections.",
+                "items": {
+                  "description": "ICMPRule is a list of ICMP fields.",
+                  "properties": {
+                    "fields": {
+                      "description": "Fields is a list of ICMP fields.",
+                      "items": {
+                        "description": "ICMPField is a ICMP field.",
+                        "properties": {
+                          "family": {
+                            "default": "IPv4",
+                            "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                            "enum": [
+                              "IPv4",
+                              "IPv6"
+                            ],
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                            "maximum": 255,
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "toPorts": {
                 "description": "ToPorts is a list of destination ports identified by port number and protocol which the endpoint subject to the rule is not allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can not accept incoming connections on port 80/tcp.",
                 "items": {
@@ -1768,6 +1920,44 @@
             "items": {
               "description": "EgressRule contains all rule types which can be applied at egress, i.e. network traffic that originates inside the endpoint and exits the endpoint selected by the endpointSelector. \n - All members of this structure are optional. If omitted or empty, the   member will have no effect on the rule. \n - If multiple members of the structure are specified, then all members   must match in order for the rule to take effect. The exception to this   rule is the ToRequires member; the effects of any Requires field in any   rule will apply to all other rules as well. \n - ToEndpoints, ToCIDR, ToCIDRSet, ToEntities, ToServices and ToGroups are   mutually exclusive. Only one of these members may be present within an   individual rule.",
               "properties": {
+                "icmps": {
+                  "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is allowed to connect to. \n Example: Any endpoint with the label \"app=httpd\" is allowed to initiate type 8 ICMP connections.",
+                  "items": {
+                    "description": "ICMPRule is a list of ICMP fields.",
+                    "properties": {
+                      "fields": {
+                        "description": "Fields is a list of ICMP fields.",
+                        "items": {
+                          "description": "ICMPField is a ICMP field.",
+                          "properties": {
+                            "family": {
+                              "default": "IPv4",
+                              "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                              "enum": [
+                                "IPv4",
+                                "IPv6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                              "maximum": 255,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
                 "toCIDR": {
                   "description": "ToCIDR is a list of IP blocks which the endpoint subject to the rule is allowed to initiate connections. Only connections destined for outside of the cluster and not targeting the host will be subject to CIDR rules.  This will match on the destination IP address of outgoing connections. Adding a prefix into ToCIDR or into ToCIDRSet with no ExcludeCIDRs is equivalent. Overlaps are allowed between ToCIDR and ToCIDRSet. \n Example: Any endpoint with the label \"app=database-proxy\" is allowed to initiate connections to 10.2.3.0/24",
                   "items": {
@@ -2351,6 +2541,44 @@
             "items": {
               "description": "EgressDenyRule contains all rule types which can be applied at egress, i.e. network traffic that originates inside the endpoint and exits the endpoint selected by the endpointSelector. \n - All members of this structure are optional. If omitted or empty, the   member will have no effect on the rule. \n - If multiple members of the structure are specified, then all members   must match in order for the rule to take effect. The exception to this   rule is the ToRequires member; the effects of any Requires field in any   rule will apply to all other rules as well. \n - ToEndpoints, ToCIDR, ToCIDRSet, ToEntities, ToServices and ToGroups are   mutually exclusive. Only one of these members may be present within an   individual rule.",
               "properties": {
+                "icmps": {
+                  "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is not allowed to connect to. \n Example: Any endpoint with the label \"app=httpd\" is not allowed to initiate type 8 ICMP connections.",
+                  "items": {
+                    "description": "ICMPRule is a list of ICMP fields.",
+                    "properties": {
+                      "fields": {
+                        "description": "Fields is a list of ICMP fields.",
+                        "items": {
+                          "description": "ICMPField is a ICMP field.",
+                          "properties": {
+                            "family": {
+                              "default": "IPv4",
+                              "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                              "enum": [
+                                "IPv4",
+                                "IPv6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                              "maximum": 255,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
                 "toCIDR": {
                   "description": "ToCIDR is a list of IP blocks which the endpoint subject to the rule is allowed to initiate connections. Only connections destined for outside of the cluster and not targeting the host will be subject to CIDR rules.  This will match on the destination IP address of outgoing connections. Adding a prefix into ToCIDR or into ToCIDRSet with no ExcludeCIDRs is equivalent. Overlaps are allowed between ToCIDR and ToCIDRSet. \n Example: Any endpoint with the label \"app=database-proxy\" is allowed to initiate connections to 10.2.3.0/24",
                   "items": {
@@ -2901,6 +3129,44 @@
                   },
                   "type": "array"
                 },
+                "icmps": {
+                  "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can only accept incoming type 8 ICMP connections.",
+                  "items": {
+                    "description": "ICMPRule is a list of ICMP fields.",
+                    "properties": {
+                      "fields": {
+                        "description": "Fields is a list of ICMP fields.",
+                        "items": {
+                          "description": "ICMPField is a ICMP field.",
+                          "properties": {
+                            "family": {
+                              "default": "IPv4",
+                              "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                              "enum": [
+                                "IPv4",
+                                "IPv6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                              "maximum": 255,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
                 "toPorts": {
                   "description": "ToPorts is a list of destination ports identified by port number and protocol which the endpoint subject to the rule is allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can only accept incoming connections on port 80/tcp.",
                   "items": {
@@ -3337,6 +3603,44 @@
                         },
                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                         "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "icmps": {
+                  "description": "ICMPs is a list of ICMP rule identified by type number which the endpoint subject to the rule is not allowed to receive connections on. \n Example: Any endpoint with the label \"app=httpd\" can not accept incoming type 8 ICMP connections.",
+                  "items": {
+                    "description": "ICMPRule is a list of ICMP fields.",
+                    "properties": {
+                      "fields": {
+                        "description": "Fields is a list of ICMP fields.",
+                        "items": {
+                          "description": "ICMPField is a ICMP field.",
+                          "properties": {
+                            "family": {
+                              "default": "IPv4",
+                              "description": "Family is a IP address version. Currently, we support `IPv4` and `IPv6`. `IPv4` is set as default.",
+                              "enum": [
+                                "IPv4",
+                                "IPv6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "Type is a ICMP-type. It should be 0-255 (8bit).",
+                              "maximum": 255,
+                              "minimum": 0,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
                       }
                     },
                     "type": "object"

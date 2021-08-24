@@ -123,6 +123,21 @@
           "description": "The job name assigned to scraped metrics by default.",
           "type": "string"
         },
+        "labelLimit": {
+          "description": "Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "labelNameLengthLimit": {
+          "description": "Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "labelValueLengthLimit": {
+          "description": "Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "format": "int64",
+          "type": "integer"
+        },
         "module": {
           "description": "The module to use for probing specifying how to probe the target. Example module configuring in the blackbox exporter: https://github.com/prometheus/blackbox_exporter/blob/master/example.yml",
           "type": "string"
@@ -251,9 +266,19 @@
           ],
           "type": "object"
         },
+        "sampleLimit": {
+          "description": "SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.",
+          "format": "int64",
+          "type": "integer"
+        },
         "scrapeTimeout": {
           "description": "Timeout for scraping metrics from the Prometheus exporter.",
           "type": "string"
+        },
+        "targetLimit": {
+          "description": "TargetLimit defines a limit on the number of scraped targets that will be accepted.",
+          "format": "int64",
+          "type": "integer"
         },
         "targets": {
           "description": "Targets defines a set of static and/or dynamically discovered targets to be probed using the prober.",
