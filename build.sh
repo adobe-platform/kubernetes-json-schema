@@ -74,4 +74,4 @@ crd_to_json_schema aws-adopted-resources https://raw.githubusercontent.com/aws-c
 crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-controllers-k8s/elasticache-controller/main/helm/crds/elasticache.services.k8s.{aws_cacheparametergroups,aws_cachesubnetgroups,aws_replicationgroups,aws_snapshots}.yaml
 crd_to_json_schema rds-controller https://raw.githubusercontent.com/aws-controllers-k8s/rds-controller/main/helm/crds/rds.services.k8s.aws_{dbinstances,dbparametergrups,dbsecuritygroups,dbsubnetgroups}.yaml
 crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/1.6/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
-
+crd_to_json_schema vault-secrets-operator https://raw.githubusercontent.com/ricoberger/vault-secrets-operator/master/charts/vault-secrets-operator/crds/crd-vaultsecret.yaml
