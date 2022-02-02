@@ -20,3 +20,12 @@ CRD's currently supported:
 - prometheus-operator
 - ack dynamodb- and elasticache controllers
 - elasticsearch opertator
+- vault-secrets-operator
+
+## How to update
+
+1. Add line(s) to build.sh with with additional items as desired
+
+1. Build docker image `docker build -t 'ksj-schema' .`
+
+1. Run mounting local files `docker run --rm -it --mount type=bind,source="$(pwd)",target=/working ksj-schema /working/build.sh`
