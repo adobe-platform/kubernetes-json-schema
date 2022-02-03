@@ -42,6 +42,22 @@
             "type": "object"
           },
           "type": "array"
+        },
+        "tags": {
+          "description": "A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.",
+          "items": {
+            "description": "A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted.",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
         }
       },
       "required": [
@@ -121,6 +137,9 @@
               },
               "sourceIdentifier": {
                 "type": "string"
+              },
+              "sourceType": {
+                "type": "string"
               }
             },
             "type": "object"
@@ -137,6 +156,9 @@
             "description": "Describes an individual setting that controls some aspect of ElastiCache behavior.",
             "properties": {
               "allowedValues": {
+                "type": "string"
+              },
+              "changeType": {
                 "type": "string"
               },
               "dataType": {

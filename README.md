@@ -10,7 +10,7 @@ Forked from https://github.com/joshuaspence/kubernetes-json-schema
 
 CRD's currently supported:
 
-- argo-rollouts
+- argo-cd, argo-rollouts, argo-workflows
 - azure-service-operator
 - cert-manager
 - cilium

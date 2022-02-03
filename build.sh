@@ -61,6 +61,8 @@ function write_schema() {
   jq 'def strictify: . + if .type == "object" and has("properties") then {additionalProperties: false} + {properties: (({} + .properties) | map_values(strictify))} else null end; . * {properties: {spec: .properties.spec | strictify}}' "master-standalone/${1}" | sponge "master-standalone-strict/${1}"
 }
 
+crd_to_json_schema argo-cd https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+crd_to_json_schema argo-workflows https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/install.yaml
 crd_to_json_schema argo-rollouts https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 crd_to_json_schema cert-manager https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
 crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml

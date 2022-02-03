@@ -1,7 +1,7 @@
 {
   "properties": {
     "spec": {
-      "description": "Telemetry configuration for workloads. See more details at: https://istio.io/docs/reference/config/telemetry/telemetry.html",
+      "description": "Telemetry configuration for workloads. See more details at: https://istio.io/docs/reference/config/telemetry.html",
       "properties": {
         "accessLogging": {
           "description": "Optional.",
@@ -11,6 +11,16 @@
                 "description": "Controls logging.",
                 "nullable": true,
                 "type": "boolean"
+              },
+              "filter": {
+                "description": "Optional.",
+                "properties": {
+                  "expression": {
+                    "description": "CEL expression for selecting when requests/connections should be logged.",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
               },
               "providers": {
                 "description": "Optional.",
@@ -273,6 +283,10 @@
               "randomSamplingPercentage": {
                 "nullable": true,
                 "type": "number"
+              },
+              "useRequestIdForTraceSampling": {
+                "nullable": true,
+                "type": "boolean"
               }
             },
             "type": "object"
