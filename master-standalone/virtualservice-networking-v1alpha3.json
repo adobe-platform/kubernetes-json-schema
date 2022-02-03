@@ -780,12 +780,55 @@
               },
               "redirect": {
                 "description": "A HTTP rule can either redirect or forward (default) traffic.",
+                "oneOf": [
+                  {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "port"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "derivePort"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "port"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "derivePort"
+                    ]
+                  }
+                ],
                 "properties": {
                   "authority": {
                     "type": "string"
                   },
+                  "derivePort": {
+                    "enum": [
+                      "FROM_PROTOCOL_DEFAULT",
+                      "FROM_REQUEST_PORT"
+                    ],
+                    "type": "string"
+                  },
+                  "port": {
+                    "description": "On a redirect, overwrite the port portion of the URL with this value.",
+                    "type": "integer"
+                  },
                   "redirectCode": {
                     "type": "integer"
+                  },
+                  "scheme": {
+                    "description": "On a redirect, overwrite the scheme portion of the URL with this value.",
+                    "type": "string"
                   },
                   "uri": {
                     "type": "string"
@@ -908,6 +951,7 @@
                       "type": "object"
                     },
                     "weight": {
+                      "description": "Weight specifies the relative proportion of traffic to be forwarded to the destination.",
                       "format": "int32",
                       "type": "integer"
                     }
@@ -996,6 +1040,7 @@
                       "type": "object"
                     },
                     "weight": {
+                      "description": "Weight specifies the relative proportion of traffic to be forwarded to the destination.",
                       "format": "int32",
                       "type": "integer"
                     }
@@ -1082,6 +1127,7 @@
                       "type": "object"
                     },
                     "weight": {
+                      "description": "Weight specifies the relative proportion of traffic to be forwarded to the destination.",
                       "format": "int32",
                       "type": "integer"
                     }

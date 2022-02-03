@@ -148,10 +148,6 @@
           "type": "string"
         }
       },
-      "required": [
-        "ackResourceMetadata",
-        "conditions"
-      ],
       "type": "object"
     }
   },

@@ -61,7 +61,7 @@
           "description": "The name of the DB parameter group to associate with this DB instance. If you do not specify a value, then the default DB parameter group for the specified DB engine and version is used. \n Constraints: \n    * Must be 1 to 255 letters, numbers, or hyphens. \n    * First character must be a letter \n    * Can't end with a hyphen or contain two consecutive hyphens",
           "type": "string"
         },
-        "dbSecurityGroupNames": {
+        "dbSecurityGroups": {
           "description": "A list of DB security groups to associate with this DB instance. \n Default: The default DB security group for the database engine.",
           "items": {
             "type": "string"
@@ -717,10 +717,6 @@
           "type": "array"
         }
       },
-      "required": [
-        "ackResourceMetadata",
-        "conditions"
-      ],
       "type": "object"
     }
   },

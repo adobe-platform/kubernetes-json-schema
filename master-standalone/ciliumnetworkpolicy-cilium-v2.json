@@ -184,7 +184,8 @@
                     "unmanaged",
                     "remote-node",
                     "health",
-                    "none"
+                    "none",
+                    "kube-apiserver"
                   ],
                   "type": "string"
                 },
@@ -805,7 +806,8 @@
                     "unmanaged",
                     "remote-node",
                     "health",
-                    "none"
+                    "none",
+                    "kube-apiserver"
                   ],
                   "type": "string"
                 },
@@ -1190,7 +1192,8 @@
                     "unmanaged",
                     "remote-node",
                     "health",
-                    "none"
+                    "none",
+                    "kube-apiserver"
                   ],
                   "type": "string"
                 },
@@ -1670,7 +1673,8 @@
                     "unmanaged",
                     "remote-node",
                     "health",
-                    "none"
+                    "none",
+                    "kube-apiserver"
                   ],
                   "type": "string"
                 },
@@ -2062,7 +2066,8 @@
                       "unmanaged",
                       "remote-node",
                       "health",
-                      "none"
+                      "none",
+                      "kube-apiserver"
                     ],
                     "type": "string"
                   },
@@ -2683,7 +2688,8 @@
                       "unmanaged",
                       "remote-node",
                       "health",
-                      "none"
+                      "none",
+                      "kube-apiserver"
                     ],
                     "type": "string"
                   },
@@ -3068,7 +3074,8 @@
                       "unmanaged",
                       "remote-node",
                       "health",
-                      "none"
+                      "none",
+                      "kube-apiserver"
                     ],
                     "type": "string"
                   },
@@ -3548,7 +3555,8 @@
                       "unmanaged",
                       "remote-node",
                       "health",
-                      "none"
+                      "none",
+                      "kube-apiserver"
                     ],
                     "type": "string"
                   },
