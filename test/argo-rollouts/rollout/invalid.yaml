@@ -4,5 +4,5 @@ kind: 'Rollout'
 metadata:
   name: 'test'
   namespace: 'test'
-spec:
-  template: {}
+# spec:
+#   template: {}
