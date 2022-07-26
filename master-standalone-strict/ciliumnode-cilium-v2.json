@@ -117,6 +117,17 @@
               "description": "DeleteOnTermination defines that the ENI should be deleted when the associated instance is terminated. If the parameter is not set the default behavior is to delete the ENI on instance termination.",
               "type": "boolean"
             },
+            "disable-prefix-delegation": {
+              "description": "DisablePrefixDelegation determines whether ENI prefix delegation should be disabled on this node.",
+              "type": "boolean"
+            },
+            "exclude-interface-tags": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "ExcludeInterfaceTags is the list of tags to use when excluding ENIs for Cilium IP allocation. Any interface matching this set of tags will not be managed by Cilium.",
+              "type": "object"
+            },
             "first-interface-index": {
               "description": "FirstInterfaceIndex is the index of the first ENI to use for IP allocation, e.g. if the node has eth0, eth1, eth2 and FirstInterfaceIndex is set to 1, then only eth1 and eth2 will be used for IP allocation, eth0 will be ignored for PodIP allocation.",
               "minimum": 0,
@@ -173,6 +184,10 @@
               "description": "SubnetTags is the list of tags to use when evaluating what AWS subnets to use for ENI and IP allocation.",
               "type": "object"
             },
+            "use-primary-address": {
+              "description": "UsePrimaryAddress determines whether an ENI's primary address should be available for allocations on the node",
+              "type": "boolean"
+            },
             "vpc-id": {
               "description": "VpcID is the VPC ID to use when allocating ENIs.",
               "type": "string"
@@ -190,6 +205,19 @@
             },
             "ipv6": {
               "description": "IPv6 is the IPv6 address of the IPv4 health endpoint.",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "ingress": {
+          "description": "IngressAddressing is the addressing information for Ingress listener.",
+          "properties": {
+            "ipv4": {
+              "type": "string"
+            },
+            "ipv6": {
               "type": "string"
             }
           },
@@ -215,6 +243,16 @@
             },
             "min-allocate": {
               "description": "MinAllocate is the minimum number of IPs that must be allocated when the node is first bootstrapped. It defines the minimum base socket of addresses that must be available. After reaching this watermark, the PreAllocate and MaxAboveWatermark logic takes over to continue allocating IPs.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "pod-cidr-allocation-threshold": {
+              "description": "PodCIDRAllocationThreshold defines the minimum number of free IPs which must be available to this node via its pod CIDR pool. If the total number of IP addresses in the pod CIDR pool is less than this value, the pod CIDRs currently in-use by this node will be marked as depleted and cilium-operator will allocate a new pod CIDR to this node. This value effectively defines the buffer of IP addresses available immediately without requiring cilium-operator to get involved.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "pod-cidr-release-threshold": {
+              "description": "PodCIDRReleaseThreshold defines the maximum number of free IPs which may be available to this node via its pod CIDR pool. While the total number of free IP addresses in the pod CIDR pool is larger than this value, cilium-agent will attempt to release currently unused pod CIDRs.",
               "minimum": 0,
               "type": "integer"
             },
@@ -478,6 +516,13 @@
                     "description": "Number is the interface index, it used in combination with FirstInterfaceIndex",
                     "type": "integer"
                   },
+                  "prefixes": {
+                    "description": "Prefixes is the list of all /28 prefixes associated with the ENI",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "security-groups": {
                     "description": "SecurityGroups are the security groups associated with the ENI",
                     "items": {
@@ -497,6 +542,13 @@
                         "type": "string"
                       }
                     },
+                    "type": "object"
+                  },
+                  "tags": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Tags is the set of tags of the ENI. Used to detect ENIs which should not be managed by Cilium",
                     "type": "object"
                   },
                   "vpc": {
@@ -540,6 +592,24 @@
                   "type": "string"
                 }
               },
+              "type": "object"
+            },
+            "pod-cidrs": {
+              "additionalProperties": {
+                "properties": {
+                  "status": {
+                    "description": "Status describes the status of a pod CIDR",
+                    "enum": [
+                      "released",
+                      "depleted",
+                      "in-use"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "description": "PodCIDRs lists the status of each pod CIDR allocated to this node.",
               "type": "object"
             },
             "release-ips": {

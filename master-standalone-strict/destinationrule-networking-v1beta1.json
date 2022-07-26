@@ -81,6 +81,10 @@
                             "description": "TCP connection timeout.",
                             "type": "string"
                           },
+                          "maxConnectionDuration": {
+                            "description": "The maximum duration of a connection.",
+                            "type": "string"
+                          },
                           "maxConnections": {
                             "description": "Maximum number of HTTP1 /TCP connections to a destination host.",
                             "format": "int32",
@@ -336,11 +340,17 @@
                       },
                       "simple": {
                         "enum": [
-                          "ROUND_ROBIN",
+                          "UNSPECIFIED",
                           "LEAST_CONN",
                           "RANDOM",
-                          "PASSTHROUGH"
+                          "PASSTHROUGH",
+                          "ROUND_ROBIN",
+                          "LEAST_REQUEST"
                         ],
+                        "type": "string"
+                      },
+                      "warmupDurationSecs": {
+                        "description": "Represents the warmup duration of Service.",
                         "type": "string"
                       }
                     },
@@ -442,6 +452,10 @@
                               "properties": {
                                 "connectTimeout": {
                                   "description": "TCP connection timeout.",
+                                  "type": "string"
+                                },
+                                "maxConnectionDuration": {
+                                  "description": "The maximum duration of a connection.",
                                   "type": "string"
                                 },
                                 "maxConnections": {
@@ -699,11 +713,17 @@
                             },
                             "simple": {
                               "enum": [
-                                "ROUND_ROBIN",
+                                "UNSPECIFIED",
                                 "LEAST_CONN",
                                 "RANDOM",
-                                "PASSTHROUGH"
+                                "PASSTHROUGH",
+                                "ROUND_ROBIN",
+                                "LEAST_REQUEST"
                               ],
+                              "type": "string"
+                            },
+                            "warmupDurationSecs": {
+                              "description": "Represents the warmup duration of Service.",
                               "type": "string"
                             }
                           },
@@ -850,6 +870,23 @@
                       }
                     },
                     "type": "object"
+                  },
+                  "tunnel": {
+                    "properties": {
+                      "protocol": {
+                        "description": "Specifies which protocol to use for tunneling the downstream connection.",
+                        "type": "string"
+                      },
+                      "targetHost": {
+                        "description": "Specifies a host to which the downstream connection is tunneled.",
+                        "type": "string"
+                      },
+                      "targetPort": {
+                        "description": "Specifies a port to which the downstream connection is tunneled.",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
                   }
                 },
                 "type": "object"
@@ -911,6 +948,10 @@
                   "properties": {
                     "connectTimeout": {
                       "description": "TCP connection timeout.",
+                      "type": "string"
+                    },
+                    "maxConnectionDuration": {
+                      "description": "The maximum duration of a connection.",
                       "type": "string"
                     },
                     "maxConnections": {
@@ -1174,11 +1215,17 @@
                 },
                 "simple": {
                   "enum": [
-                    "ROUND_ROBIN",
+                    "UNSPECIFIED",
                     "LEAST_CONN",
                     "RANDOM",
-                    "PASSTHROUGH"
+                    "PASSTHROUGH",
+                    "ROUND_ROBIN",
+                    "LEAST_REQUEST"
                   ],
+                  "type": "string"
+                },
+                "warmupDurationSecs": {
+                  "description": "Represents the warmup duration of Service.",
                   "type": "string"
                 }
               },
@@ -1282,6 +1329,10 @@
                         "properties": {
                           "connectTimeout": {
                             "description": "TCP connection timeout.",
+                            "type": "string"
+                          },
+                          "maxConnectionDuration": {
+                            "description": "The maximum duration of a connection.",
                             "type": "string"
                           },
                           "maxConnections": {
@@ -1539,11 +1590,17 @@
                       },
                       "simple": {
                         "enum": [
-                          "ROUND_ROBIN",
+                          "UNSPECIFIED",
                           "LEAST_CONN",
                           "RANDOM",
-                          "PASSTHROUGH"
+                          "PASSTHROUGH",
+                          "ROUND_ROBIN",
+                          "LEAST_REQUEST"
                         ],
+                        "type": "string"
+                      },
+                      "warmupDurationSecs": {
+                        "description": "Represents the warmup duration of Service.",
                         "type": "string"
                       }
                     },
@@ -1691,6 +1748,36 @@
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "tunnel": {
+              "properties": {
+                "protocol": {
+                  "description": "Specifies which protocol to use for tunneling the downstream connection.",
+                  "type": "string"
+                },
+                "targetHost": {
+                  "description": "Specifies a host to which the downstream connection is tunneled.",
+                  "type": "string"
+                },
+                "targetPort": {
+                  "description": "Specifies a port to which the downstream connection is tunneled.",
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "workloadSelector": {
+          "properties": {
+            "matchLabels": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
             }
           },
           "type": "object",

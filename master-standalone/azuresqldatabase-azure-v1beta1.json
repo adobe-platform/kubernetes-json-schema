@@ -21,6 +21,9 @@
         "edition": {
           "type": "integer"
         },
+        "elasticPoolId": {
+          "type": "string"
+        },
         "location": {
           "minLength": 1,
           "type": "string"

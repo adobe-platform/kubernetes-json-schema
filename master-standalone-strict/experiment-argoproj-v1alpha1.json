@@ -83,10 +83,47 @@
           },
           "type": "array"
         },
+        "dryRun": {
+          "items": {
+            "properties": {
+              "metricName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "metricName"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
         "duration": {
           "type": "string"
         },
+        "measurementRetention": {
+          "items": {
+            "properties": {
+              "limit": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "metricName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "limit",
+              "metricName"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
         "progressDeadlineSeconds": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "scaleDownDelaySeconds": {
           "format": "int32",
           "type": "integer"
         },
@@ -137,6 +174,9 @@
                     "type": "object"
                   }
                 },
+                "type": "object"
+              },
+              "service": {
                 "type": "object"
               },
               "template": {
@@ -346,6 +386,41 @@
                                           },
                                           "type": "object"
                                         },
+                                        "namespaceSelector": {
+                                          "properties": {
+                                            "matchExpressions": {
+                                              "items": {
+                                                "properties": {
+                                                  "key": {
+                                                    "type": "string"
+                                                  },
+                                                  "operator": {
+                                                    "type": "string"
+                                                  },
+                                                  "values": {
+                                                    "items": {
+                                                      "type": "string"
+                                                    },
+                                                    "type": "array"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "key",
+                                                  "operator"
+                                                ],
+                                                "type": "object"
+                                              },
+                                              "type": "array"
+                                            },
+                                            "matchLabels": {
+                                              "additionalProperties": {
+                                                "type": "string"
+                                              },
+                                              "type": "object"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
                                         "namespaces": {
                                           "items": {
                                             "type": "string"
@@ -378,6 +453,41 @@
                                 "items": {
                                   "properties": {
                                     "labelSelector": {
+                                      "properties": {
+                                        "matchExpressions": {
+                                          "items": {
+                                            "properties": {
+                                              "key": {
+                                                "type": "string"
+                                              },
+                                              "operator": {
+                                                "type": "string"
+                                              },
+                                              "values": {
+                                                "items": {
+                                                  "type": "string"
+                                                },
+                                                "type": "array"
+                                              }
+                                            },
+                                            "required": [
+                                              "key",
+                                              "operator"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "type": "array"
+                                        },
+                                        "matchLabels": {
+                                          "additionalProperties": {
+                                            "type": "string"
+                                          },
+                                          "type": "object"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "namespaceSelector": {
                                       "properties": {
                                         "matchExpressions": {
                                           "items": {
@@ -474,6 +584,41 @@
                                           },
                                           "type": "object"
                                         },
+                                        "namespaceSelector": {
+                                          "properties": {
+                                            "matchExpressions": {
+                                              "items": {
+                                                "properties": {
+                                                  "key": {
+                                                    "type": "string"
+                                                  },
+                                                  "operator": {
+                                                    "type": "string"
+                                                  },
+                                                  "values": {
+                                                    "items": {
+                                                      "type": "string"
+                                                    },
+                                                    "type": "array"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "key",
+                                                  "operator"
+                                                ],
+                                                "type": "object"
+                                              },
+                                              "type": "array"
+                                            },
+                                            "matchLabels": {
+                                              "additionalProperties": {
+                                                "type": "string"
+                                              },
+                                              "type": "object"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
                                         "namespaces": {
                                           "items": {
                                             "type": "string"
@@ -506,6 +651,41 @@
                                 "items": {
                                   "properties": {
                                     "labelSelector": {
+                                      "properties": {
+                                        "matchExpressions": {
+                                          "items": {
+                                            "properties": {
+                                              "key": {
+                                                "type": "string"
+                                              },
+                                              "operator": {
+                                                "type": "string"
+                                              },
+                                              "values": {
+                                                "items": {
+                                                  "type": "string"
+                                                },
+                                                "type": "array"
+                                              }
+                                            },
+                                            "required": [
+                                              "key",
+                                              "operator"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "type": "array"
+                                        },
+                                        "matchLabels": {
+                                          "additionalProperties": {
+                                            "type": "string"
+                                          },
+                                          "type": "object"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "namespaceSelector": {
                                       "properties": {
                                         "matchExpressions": {
                                           "items": {
@@ -906,6 +1086,21 @@
                                   "format": "int32",
                                   "type": "integer"
                                 },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
+                                },
                                 "httpGet": {
                                   "properties": {
                                     "host": {
@@ -985,6 +1180,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -1014,6 +1213,7 @@
                                     "type": "string"
                                   },
                                   "protocol": {
+                                    "default": "TCP",
                                     "type": "string"
                                   }
                                 },
@@ -1022,7 +1222,12 @@
                                 ],
                                 "type": "object"
                               },
-                              "type": "array"
+                              "type": "array",
+                              "x-kubernetes-list-map-keys": [
+                                "containerPort",
+                                "protocol"
+                              ],
+                              "x-kubernetes-list-type": "map"
                             },
                             "readinessProbe": {
                               "properties": {
@@ -1040,6 +1245,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -1121,6 +1341,10 @@
                                   ],
                                   "type": "object"
                                 },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
+                                },
                                 "timeoutSeconds": {
                                   "format": "int32",
                                   "type": "integer"
@@ -1129,6 +1353,14 @@
                               "type": "object"
                             },
                             "resources": {
+                              "properties": {
+                                "limits": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                },
+                                "requests": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                }
+                              },
                               "type": "object"
                             },
                             "securityContext": {
@@ -1190,6 +1422,20 @@
                                   },
                                   "type": "object"
                                 },
+                                "seccompProfile": {
+                                  "properties": {
+                                    "localhostProfile": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ],
+                                  "type": "object"
+                                },
                                 "windowsOptions": {
                                   "properties": {
                                     "gmsaCredentialSpec": {
@@ -1197,6 +1443,9 @@
                                     },
                                     "gmsaCredentialSpecName": {
                                       "type": "string"
+                                    },
+                                    "hostProcess": {
+                                      "type": "boolean"
                                     },
                                     "runAsUserName": {
                                       "type": "string"
@@ -1223,6 +1472,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -1303,6 +1567,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -1762,6 +2030,21 @@
                                   "format": "int32",
                                   "type": "integer"
                                 },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
+                                },
                                 "httpGet": {
                                   "properties": {
                                     "host": {
@@ -1841,6 +2124,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -1870,6 +2157,7 @@
                                     "type": "string"
                                   },
                                   "protocol": {
+                                    "default": "TCP",
                                     "type": "string"
                                   }
                                 },
@@ -1878,7 +2166,12 @@
                                 ],
                                 "type": "object"
                               },
-                              "type": "array"
+                              "type": "array",
+                              "x-kubernetes-list-map-keys": [
+                                "containerPort",
+                                "protocol"
+                              ],
+                              "x-kubernetes-list-type": "map"
                             },
                             "readinessProbe": {
                               "properties": {
@@ -1896,6 +2189,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -1977,6 +2285,10 @@
                                   ],
                                   "type": "object"
                                 },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
+                                },
                                 "timeoutSeconds": {
                                   "format": "int32",
                                   "type": "integer"
@@ -1985,6 +2297,14 @@
                               "type": "object"
                             },
                             "resources": {
+                              "properties": {
+                                "limits": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                },
+                                "requests": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                }
+                              },
                               "type": "object"
                             },
                             "securityContext": {
@@ -2046,6 +2366,20 @@
                                   },
                                   "type": "object"
                                 },
+                                "seccompProfile": {
+                                  "properties": {
+                                    "localhostProfile": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ],
+                                  "type": "object"
+                                },
                                 "windowsOptions": {
                                   "properties": {
                                     "gmsaCredentialSpec": {
@@ -2053,6 +2387,9 @@
                                     },
                                     "gmsaCredentialSpecName": {
                                       "type": "string"
+                                    },
+                                    "hostProcess": {
+                                      "type": "boolean"
                                     },
                                     "runAsUserName": {
                                       "type": "string"
@@ -2079,6 +2416,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -2159,6 +2511,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -2624,6 +2980,21 @@
                                   "format": "int32",
                                   "type": "integer"
                                 },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
+                                },
                                 "httpGet": {
                                   "properties": {
                                     "host": {
@@ -2703,6 +3074,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -2732,6 +3107,7 @@
                                     "type": "string"
                                   },
                                   "protocol": {
+                                    "default": "TCP",
                                     "type": "string"
                                   }
                                 },
@@ -2740,7 +3116,12 @@
                                 ],
                                 "type": "object"
                               },
-                              "type": "array"
+                              "type": "array",
+                              "x-kubernetes-list-map-keys": [
+                                "containerPort",
+                                "protocol"
+                              ],
+                              "x-kubernetes-list-type": "map"
                             },
                             "readinessProbe": {
                               "properties": {
@@ -2758,6 +3139,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -2839,6 +3235,10 @@
                                   ],
                                   "type": "object"
                                 },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
+                                },
                                 "timeoutSeconds": {
                                   "format": "int32",
                                   "type": "integer"
@@ -2847,6 +3247,14 @@
                               "type": "object"
                             },
                             "resources": {
+                              "properties": {
+                                "limits": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                },
+                                "requests": {
+                                  "x-kubernetes-preserve-unknown-fields": true
+                                }
+                              },
                               "type": "object"
                             },
                             "securityContext": {
@@ -2908,6 +3316,20 @@
                                   },
                                   "type": "object"
                                 },
+                                "seccompProfile": {
+                                  "properties": {
+                                    "localhostProfile": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ],
+                                  "type": "object"
+                                },
                                 "windowsOptions": {
                                   "properties": {
                                     "gmsaCredentialSpec": {
@@ -2915,6 +3337,9 @@
                                     },
                                     "gmsaCredentialSpecName": {
                                       "type": "string"
+                                    },
+                                    "hostProcess": {
+                                      "type": "boolean"
                                     },
                                     "runAsUserName": {
                                       "type": "string"
@@ -2941,6 +3366,21 @@
                                 "failureThreshold": {
                                   "format": "int32",
                                   "type": "integer"
+                                },
+                                "grpc": {
+                                  "properties": {
+                                    "port": {
+                                      "format": "int32",
+                                      "type": "integer"
+                                    },
+                                    "service": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "port"
+                                  ],
+                                  "type": "object"
                                 },
                                 "httpGet": {
                                   "properties": {
@@ -3021,6 +3461,10 @@
                                     "port"
                                   ],
                                   "type": "object"
+                                },
+                                "terminationGracePeriodSeconds": {
+                                  "format": "int64",
+                                  "type": "integer"
                                 },
                                 "timeoutSeconds": {
                                   "format": "int32",
@@ -3110,6 +3554,18 @@
                         "additionalProperties": {
                           "type": "string"
                         },
+                        "type": "object",
+                        "x-kubernetes-map-type": "atomic"
+                      },
+                      "os": {
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
                         "type": "object"
                       },
                       "overhead": {
@@ -3197,6 +3653,20 @@
                             },
                             "type": "object"
                           },
+                          "seccompProfile": {
+                            "properties": {
+                              "localhostProfile": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
                           "supplementalGroups": {
                             "items": {
                               "format": "int64",
@@ -3230,6 +3700,9 @@
                               "gmsaCredentialSpecName": {
                                 "type": "string"
                               },
+                              "hostProcess": {
+                                "type": "boolean"
+                              },
                               "runAsUserName": {
                                 "type": "string"
                               }
@@ -3244,6 +3717,9 @@
                       },
                       "serviceAccountName": {
                         "type": "string"
+                      },
+                      "setHostnameAsFQDN": {
+                        "type": "boolean"
                       },
                       "shareProcessNamespace": {
                         "type": "boolean"
@@ -3335,647 +3811,15 @@
                           ],
                           "type": "object"
                         },
-                        "type": "array"
+                        "type": "array",
+                        "x-kubernetes-list-map-keys": [
+                          "topologyKey",
+                          "whenUnsatisfiable"
+                        ],
+                        "x-kubernetes-list-type": "map"
                       },
                       "volumes": {
-                        "items": {
-                          "properties": {
-                            "awsElasticBlockStore": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "partition": {
-                                  "format": "int32",
-                                  "type": "integer"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "volumeID": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "volumeID"
-                              ],
-                              "type": "object"
-                            },
-                            "azureDisk": {
-                              "properties": {
-                                "cachingMode": {
-                                  "type": "string"
-                                },
-                                "diskName": {
-                                  "type": "string"
-                                },
-                                "diskURI": {
-                                  "type": "string"
-                                },
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "kind": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                }
-                              },
-                              "required": [
-                                "diskName",
-                                "diskURI"
-                              ],
-                              "type": "object"
-                            },
-                            "azureFile": {
-                              "properties": {
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretName": {
-                                  "type": "string"
-                                },
-                                "shareName": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "secretName",
-                                "shareName"
-                              ],
-                              "type": "object"
-                            },
-                            "cephfs": {
-                              "properties": {
-                                "monitors": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "type": "array"
-                                },
-                                "path": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretFile": {
-                                  "type": "string"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "user": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "monitors"
-                              ],
-                              "type": "object"
-                            },
-                            "cinder": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "volumeID": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "volumeID"
-                              ],
-                              "type": "object"
-                            },
-                            "csi": {
-                              "properties": {
-                                "driver": {
-                                  "type": "string"
-                                },
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "nodePublishSecretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "volumeAttributes": {
-                                  "additionalProperties": {
-                                    "type": "string"
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "required": [
-                                "driver"
-                              ],
-                              "type": "object"
-                            },
-                            "emptyDir": {
-                              "properties": {
-                                "medium": {
-                                  "type": "string"
-                                },
-                                "sizeLimit": {
-                                  "anyOf": [
-                                    {
-                                      "type": "integer"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ],
-                                  "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
-                                  "x-kubernetes-int-or-string": true
-                                }
-                              },
-                              "type": "object"
-                            },
-                            "fc": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "lun": {
-                                  "format": "int32",
-                                  "type": "integer"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "targetWWNs": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "type": "array"
-                                },
-                                "wwids": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "type": "array"
-                                }
-                              },
-                              "type": "object"
-                            },
-                            "flexVolume": {
-                              "properties": {
-                                "driver": {
-                                  "type": "string"
-                                },
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "options": {
-                                  "additionalProperties": {
-                                    "type": "string"
-                                  },
-                                  "type": "object"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                }
-                              },
-                              "required": [
-                                "driver"
-                              ],
-                              "type": "object"
-                            },
-                            "flocker": {
-                              "properties": {
-                                "datasetName": {
-                                  "type": "string"
-                                },
-                                "datasetUUID": {
-                                  "type": "string"
-                                }
-                              },
-                              "type": "object"
-                            },
-                            "gcePersistentDisk": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "partition": {
-                                  "format": "int32",
-                                  "type": "integer"
-                                },
-                                "pdName": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                }
-                              },
-                              "required": [
-                                "pdName"
-                              ],
-                              "type": "object"
-                            },
-                            "gitRepo": {
-                              "properties": {
-                                "directory": {
-                                  "type": "string"
-                                },
-                                "repository": {
-                                  "type": "string"
-                                },
-                                "revision": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "repository"
-                              ],
-                              "type": "object"
-                            },
-                            "glusterfs": {
-                              "properties": {
-                                "endpoints": {
-                                  "type": "string"
-                                },
-                                "path": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                }
-                              },
-                              "required": [
-                                "endpoints",
-                                "path"
-                              ],
-                              "type": "object"
-                            },
-                            "hostPath": {
-                              "properties": {
-                                "path": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "path"
-                              ],
-                              "type": "object"
-                            },
-                            "iscsi": {
-                              "properties": {
-                                "chapAuthDiscovery": {
-                                  "type": "boolean"
-                                },
-                                "chapAuthSession": {
-                                  "type": "boolean"
-                                },
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "initiatorName": {
-                                  "type": "string"
-                                },
-                                "iqn": {
-                                  "type": "string"
-                                },
-                                "iscsiInterface": {
-                                  "type": "string"
-                                },
-                                "lun": {
-                                  "format": "int32",
-                                  "type": "integer"
-                                },
-                                "portals": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "type": "array"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "targetPortal": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iqn",
-                                "lun",
-                                "targetPortal"
-                              ],
-                              "type": "object"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "nfs": {
-                              "properties": {
-                                "path": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "server": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "path",
-                                "server"
-                              ],
-                              "type": "object"
-                            },
-                            "persistentVolumeClaim": {
-                              "properties": {
-                                "claimName": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                }
-                              },
-                              "required": [
-                                "claimName"
-                              ],
-                              "type": "object"
-                            },
-                            "photonPersistentDisk": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "pdID": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "pdID"
-                              ],
-                              "type": "object"
-                            },
-                            "portworxVolume": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "volumeID": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "volumeID"
-                              ],
-                              "type": "object"
-                            },
-                            "projected": {
-                              "properties": {
-                                "defaultMode": {
-                                  "format": "int32",
-                                  "type": "integer"
-                                },
-                                "sources": {
-                                  "items": {
-                                    "properties": {
-                                      "serviceAccountToken": {
-                                        "properties": {
-                                          "audience": {
-                                            "type": "string"
-                                          },
-                                          "expirationSeconds": {
-                                            "format": "int64",
-                                            "type": "integer"
-                                          },
-                                          "path": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "path"
-                                        ],
-                                        "type": "object"
-                                      }
-                                    },
-                                    "type": "object"
-                                  },
-                                  "type": "array"
-                                }
-                              },
-                              "required": [
-                                "sources"
-                              ],
-                              "type": "object"
-                            },
-                            "quobyte": {
-                              "properties": {
-                                "group": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "registry": {
-                                  "type": "string"
-                                },
-                                "tenant": {
-                                  "type": "string"
-                                },
-                                "user": {
-                                  "type": "string"
-                                },
-                                "volume": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "registry",
-                                "volume"
-                              ],
-                              "type": "object"
-                            },
-                            "rbd": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "image": {
-                                  "type": "string"
-                                },
-                                "keyring": {
-                                  "type": "string"
-                                },
-                                "monitors": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "type": "array"
-                                },
-                                "pool": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "user": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "image",
-                                "monitors"
-                              ],
-                              "type": "object"
-                            },
-                            "scaleIO": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "gateway": {
-                                  "type": "string"
-                                },
-                                "protectionDomain": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "sslEnabled": {
-                                  "type": "boolean"
-                                },
-                                "storageMode": {
-                                  "type": "string"
-                                },
-                                "storagePool": {
-                                  "type": "string"
-                                },
-                                "system": {
-                                  "type": "string"
-                                },
-                                "volumeName": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "gateway",
-                                "secretRef",
-                                "system"
-                              ],
-                              "type": "object"
-                            },
-                            "storageos": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "readOnly": {
-                                  "type": "boolean"
-                                },
-                                "secretRef": {
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "type": "object"
-                                },
-                                "volumeName": {
-                                  "type": "string"
-                                },
-                                "volumeNamespace": {
-                                  "type": "string"
-                                }
-                              },
-                              "type": "object"
-                            },
-                            "vsphereVolume": {
-                              "properties": {
-                                "fsType": {
-                                  "type": "string"
-                                },
-                                "storagePolicyID": {
-                                  "type": "string"
-                                },
-                                "storagePolicyName": {
-                                  "type": "string"
-                                },
-                                "volumePath": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "volumePath"
-                              ],
-                              "type": "object"
-                            }
-                          },
-                          "required": [
-                            "name"
-                          ],
-                          "type": "object"
-                        },
-                        "type": "array"
+                        "x-kubernetes-preserve-unknown-fields": true
                       }
                     },
                     "required": [
@@ -4100,6 +3944,9 @@
               "name": {
                 "type": "string"
               },
+              "podTemplateHash": {
+                "type": "string"
+              },
               "readyReplicas": {
                 "format": "int32",
                 "type": "integer"
@@ -4107,6 +3954,9 @@
               "replicas": {
                 "format": "int32",
                 "type": "integer"
+              },
+              "serviceName": {
+                "type": "string"
               },
               "status": {
                 "type": "string"
