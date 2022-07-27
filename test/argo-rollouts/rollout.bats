@@ -11,7 +11,7 @@ load ../test_helper
 @test "invalid Rollout" {
   run kubeval "${FIXTURES}/invalid.yaml"
   [[ $status -eq 1 ]]
-  [[ $output = "WARN - ${FIXTURES}/invalid.yaml contains an invalid Rollout (test.test) - selector: selector is required" ]]
+  [[ $output = "WARN - ${FIXTURES}/invalid.yaml contains an invalid Rollout (test.test) - spec: spec is required" ]]
 }
 
 @test "invalid Rollout in strict mode" {
