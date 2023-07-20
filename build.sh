@@ -4,6 +4,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# use homebrew cut if installed
+if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+fi
+
 function crd_to_json_schema() {
   local api_version crd_group crd_kind crd_version document input kind
 
@@ -36,7 +41,7 @@ function crd_to_json_schema() {
           yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         else
           for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
-            yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+            yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
           done
         fi
         ;;
@@ -44,7 +49,7 @@ function crd_to_json_schema() {
       v1)
         echo "apiextensions: ${api_version} documentIndex: ${document} | kind: ${kind} crd_kind: ${crd_kind} crd_group: ${crd_group}"
         for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
-          yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.versions[] | select(.name == \"${crd_version}\") | .schema.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+          yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.versions[] | select(.name == \"${crd_version}\") | .schema.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         done
         ;;
 
@@ -66,6 +71,7 @@ crd_to_json_schema argo-workflows https://raw.githubusercontent.com/argoproj/arg
 crd_to_json_schema argo-rollouts https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 crd_to_json_schema cert-manager https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
 crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
+crd_to_json_schema helm-repository https://raw.githubusercontent.com/fluxcd/source-controller/main/config/crd/bases/source.toolkit.fluxcd.io_helmrepositories.yaml
 crd_to_json_schema prometheus-operator https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/example/prometheus-operator-crd/monitoring.coreos.com_{alertmanagers,alertmanagerconfigs,podmonitors,probes,prometheuses,prometheusrules,servicemonitors,thanosrulers}.yaml
 crd_to_json_schema contour https://raw.githubusercontent.com/phylake/contour/v1.5-adobe/examples/contour/01-crds.yaml
 crd_to_json_schema istio https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
@@ -77,3 +83,4 @@ crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-
 crd_to_json_schema rds-controller https://raw.githubusercontent.com/aws-controllers-k8s/rds-controller/main/helm/crds/rds.services.k8s.aws_{dbinstances,dbparametergrups,dbsecuritygroups,dbsubnetgroups}.yaml
 crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/1.6/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
 crd_to_json_schema vault-secrets-operator https://raw.githubusercontent.com/ricoberger/vault-secrets-operator/master/charts/vault-secrets-operator/crds/crd-vaultsecret.yaml
+crd_to_json_schema vpa https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
