@@ -37,8 +37,8 @@ function crd_to_json_schema() {
       v1beta1)
         echo "apiextensions: ${api_version} documentIndex: ${document} | kind: ${kind} crd_kind: ${crd_kind} crd_group: ${crd_group}"
         crd_version=$(yq eval "select(documentIndex == ${document}) | .spec.version" "${input}")
-        if [ ! -z ${crd_version} ]; then
-          yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+        if [ -n "${crd_version}" ]; then
+          yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         else
           for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
             yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
