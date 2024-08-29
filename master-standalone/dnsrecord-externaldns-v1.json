@@ -1,0 +1,779 @@
+{
+    "apiVersion": "apiextensions.k8s.io/v1",
+    "kind": "CustomResourceDefinition",
+    "metadata": {
+      "name": "dnsrecords.externaldns.adobe.com"
+    },
+    "spec": {
+      "group": "externaldns.adobe.com",
+      "names": {
+        "kind": "DNSRecord",
+        "listKind": "DNSRecordList",
+        "plural": "dnsrecords",
+        "shortNames": [
+          "dns"
+        ],
+        "singular": "dnsrecord"
+      },
+      "scope": "Namespaced",
+      "versions": [
+        {
+          "additionalPrinterColumns": [
+            {
+              "description": "DNS name",
+              "jsonPath": ".spec.dnsName",
+              "name": "DNS",
+              "type": "string"
+            },
+            {
+              "description": "Whether it's marked for delete or not",
+              "jsonPath": ".spec.delete",
+              "name": "Delete",
+              "type": "string"
+            },
+            {
+              "description": "Status",
+              "jsonPath": ".status.conditions[-1].status",
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "description": "Message",
+              "jsonPath": ".status.conditions[-1].message",
+              "name": "message",
+              "type": "string"
+            },
+            {
+              "description": "lastUpdateTime",
+              "jsonPath": ".status.conditions[-1].lastUpdateTime",
+              "name": "last_update",
+              "type": "string"
+            },
+            {
+              "description": "requestId",
+              "jsonPath": ".status.conditions[-1].requestId",
+              "name": "request_Id",
+              "type": "string"
+            }
+          ],
+          "name": "v1",
+          "schema": {
+            "openAPIV3Schema": {
+              "description": "DNSRecord is the Schema for the dnsrecords API",
+              "properties": {
+                "apiVersion": {
+                  "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+                  "type": "string"
+                },
+                "kind": {
+                  "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+                  "type": "string"
+                },
+                "metadata": {
+                  "type": "object"
+                },
+                "spec": {
+                  "description": "DNSRecordSpec defines the desired state of DNSRecord",
+                  "oneOf": [
+                    {
+                      "required": [
+                        "simpleRoutingPolicy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "latencyRoutingPolicy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "weightedRoutingPolicy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "geolocationRoutingPolicy"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "failoverRoutingPolicy"
+                      ]
+                    }
+                  ],
+                  "properties": {
+                    "delete": {
+                      "description": "If set to true, hard deletes all Route53 entries that have the given dnsName. Deleting the CRD will not lead to a Route53 entry being deleted.",
+                      "type": "boolean"
+                    },
+                    "dnsName": {
+                      "description": "DnsName is the fully qualified domain name, for example, www.example.com. DnsName is a required field.",
+                      "maxLength": 253,
+                      "type": "string"
+                    },
+                    "failoverRoutingPolicy": {
+                      "description": "FailoverRoutingPolicy routing lets you route traffic to a resource when the resource is healthy or to a different resource when the first resource is unhealthy. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-failover.html",
+                      "properties": {
+                        "endpoints": {
+                          "items": {
+                            "oneOf": [
+                              {
+                                "required": [
+                                  "alias"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "nonAlias"
+                                ]
+                              }
+                            ],
+                            "properties": {
+                              "alias": {
+                                "description": "Alias lets you setup a Route53 alias record. Amazon Route 53 alias records provide a Route 53–specific extension to DNS functionality. Alias records let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets. They also let you route traffic from one record in a hosted zone to another record. When you use an alias record to route traffic to an AWS resource, Route 53 automatically recognizes changes in the resource. For example, suppose an alias record for example.com points to an Elastic Load Balancing load balancer at lb1-1234.us-east-2.elb.amazonaws.com. If the IP address of the load balancer changes, Route 53 automatically starts to respond to DNS queries using the new IP address. \n If an alias record points to an AWS resource, you can't set the time to live (TTL); Route 53 uses the default TTL for the resource. If an alias record points to another record in the same hosted zone, Route 53 uses the TTL of the record that the alias record points to. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html",
+                                "properties": {
+                                  "dnsName": {
+                                    "maxLength": 253,
+                                    "type": "string"
+                                  },
+                                  "evaluateTargetHealth": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "dnsName"
+                                ],
+                                "type": "object"
+                              },
+                              "failover": {
+                                "description": "For failover to function correctly, you must create one primary and one secondary failover record. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-types.html",
+                                "enum": [
+                                  "PRIMARY",
+                                  "SECONDARY"
+                                ],
+                                "type": "string"
+                              },
+                              "healthCheckConfig": {
+                                "description": "HealthCheckConfig specifies the health check configuration for the endpoint. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "properties": {
+                                  "hostname": {
+                                    "description": "The domain name of the endpoint to check. The domain must point to a publicly accessible resource and must be resolvable using a public DNS server. The domain name can contain a subdomain, but it must not contain a path (such as example.com/healthcheck).",
+                                    "type": "string"
+                                  },
+                                  "resourcePath": {
+                                    "description": "The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&login=y.",
+                                    "type": "string"
+                                  },
+                                  "searchString": {
+                                    "description": "The string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route53 considers case when searching for SearchString in the response body.",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "hostname",
+                                  "resourcePath"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckId": {
+                                "description": "HealthCheckId uniquely identifies the id of a health check that check the health of endpoints. Associating a health check with a record is useful only when Route 53 is choosing between two or more records to respond to a DNS query, and you want Route 53 to base the choice in part on the status of a health check. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "type": "string"
+                              },
+                              "nonAlias": {
+                                "description": "NonAlias lets you setup a Route53 non-alias record.",
+                                "properties": {
+                                  "recordType": {
+                                    "description": "The DNS record type.",
+                                    "enum": [
+                                      "A",
+                                      "AAAA",
+                                      "CNAME"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "targets": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "ttl": {
+                                    "description": "The resource record cache time to live (TTL), in seconds. All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.",
+                                    "format": "int64",
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "recordType",
+                                  "targets"
+                                ],
+                                "type": "object"
+                              },
+                              "setIdentifier": {
+                                "description": "SetIdentifier uniquely identifies this record in the group of latency records.",
+                                "minLength": 1,
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "failover",
+                              "setIdentifier"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 2,
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "endpoints"
+                      ],
+                      "type": "object"
+                    },
+                    "geolocationRoutingPolicy": {
+                      "description": "GeolocationRoutingPolicy lets you choose the resources that serve your traffic based on the geographic location of your users, meaning the location that DNS queries originate from. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geo.html",
+                      "properties": {
+                        "endpoints": {
+                          "items": {
+                            "oneOf": [
+                              {
+                                "required": [
+                                  "alias"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "nonAlias"
+                                ]
+                              }
+                            ],
+                            "properties": {
+                              "alias": {
+                                "description": "Alias lets you setup a Route53 alias record. Amazon Route 53 alias records provide a Route 53–specific extension to DNS functionality. Alias records let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets. They also let you route traffic from one record in a hosted zone to another record. When you use an alias record to route traffic to an AWS resource, Route 53 automatically recognizes changes in the resource. For example, suppose an alias record for example.com points to an Elastic Load Balancing load balancer at lb1-1234.us-east-2.elb.amazonaws.com. If the IP address of the load balancer changes, Route 53 automatically starts to respond to DNS queries using the new IP address. \n If an alias record points to an AWS resource, you can't set the time to live (TTL); Route 53 uses the default TTL for the resource. If an alias record points to another record in the same hosted zone, Route 53 uses the TTL of the record that the alias record points to. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html",
+                                "properties": {
+                                  "dnsName": {
+                                    "maxLength": 253,
+                                    "type": "string"
+                                  },
+                                  "evaluateTargetHealth": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "dnsName"
+                                ],
+                                "type": "object"
+                              },
+                              "geoLocation": {
+                                "description": "GeoLocation: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-geo.html#rrsets-values-geo-location",
+                                "oneOf": [
+                                  {
+                                    "required": [
+                                      "continentCode"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "countryCode",
+                                      "subdivisionCode"
+                                    ]
+                                  }
+                                ],
+                                "properties": {
+                                  "continentCode": {
+                                    "description": "Multiple dns entries under the umbrella of the same dns name, must not have duplicated continentCode. Use uppercase for continentCode.",
+                                    "enum": [
+                                      "AF",
+                                      "AN",
+                                      "AS",
+                                      "EU",
+                                      "OC",
+                                      "NA",
+                                      "SA"
+                                    ],
+                                    "minLength": 2,
+                                    "type": "string"
+                                  },
+                                  "countryCode": {
+                                    "description": "For a comprehensive list of country codes, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-geo.html#rrsets-values-geo-location Multiple dns entries under the umbrella of the same dns name, must not have duplicated countryCode, unless subdivisionCode is specified and countryCode is US. Use uppercase for countryCode.",
+                                    "minLength": 1,
+                                    "type": "string"
+                                  },
+                                  "subdivisionCode": {
+                                    "description": "If you specify subdivisionCode, you must also specify US for CountryCode. Multiple dns entries under the umbrella of the same dns name, must not have duplicated subdivisionCode. Use uppercase for subdivisionCode.",
+                                    "minLength": 1,
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "healthCheckConfig": {
+                                "description": "HealthCheckConfig specifies the health check configuration for the endpoint. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "properties": {
+                                  "hostname": {
+                                    "description": "The domain name of the endpoint to check. The domain must point to a publicly accessible resource and must be resolvable using a public DNS server. The domain name can contain a subdomain, but it must not contain a path (such as example.com/healthcheck).",
+                                    "type": "string"
+                                  },
+                                  "resourcePath": {
+                                    "description": "The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&login=y.",
+                                    "type": "string"
+                                  },
+                                  "searchString": {
+                                    "description": "The string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route53 considers case when searching for SearchString in the response body.",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "hostname",
+                                  "resourcePath"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckId": {
+                                "description": "HealthCheckId uniquely identifies the id of a health check that check the health of endpoints. Associating a health check with a record is useful only when Route 53 is choosing between two or more records to respond to a DNS query, and you want Route 53 to base the choice in part on the status of a health check. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "type": "string"
+                              },
+                              "nonAlias": {
+                                "description": "NonAlias lets you setup a Route53 non-alias record.",
+                                "properties": {
+                                  "recordType": {
+                                    "description": "The DNS record type.",
+                                    "enum": [
+                                      "A",
+                                      "AAAA",
+                                      "CNAME"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "targets": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "ttl": {
+                                    "description": "The resource record cache time to live (TTL), in seconds. All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.",
+                                    "format": "int64",
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "recordType",
+                                  "targets"
+                                ],
+                                "type": "object"
+                              },
+                              "setIdentifier": {
+                                "description": "SetIdentifier uniquely identifies this record in the group of latency records.",
+                                "minLength": 1,
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "geoLocation",
+                              "setIdentifier"
+                            ],
+                            "type": "object"
+                          },
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "endpoints"
+                      ],
+                      "type": "object"
+                    },
+                    "latencyRoutingPolicy": {
+                      "description": "LatencyRoutingPolicy should be used when you have resources in multiple AWS Regions and you want to route traffic to the Region that provides the best latency. To use latency-based routing, you create latency records for your resources in multiple AWS Regions. When Route 53 receives a DNS query for your domain or subdomain (example.com or acme.example.com), it determines which AWS Regions you've created latency records for, determines which Region gives the user the lowest latency, and then selects a latency record for that Region. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-latency.html",
+                      "properties": {
+                        "endpoints": {
+                          "items": {
+                            "oneOf": [
+                              {
+                                "required": [
+                                  "alias"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "nonAlias"
+                                ]
+                              }
+                            ],
+                            "properties": {
+                              "alias": {
+                                "description": "Alias lets you setup a Route53 alias record. Amazon Route 53 alias records provide a Route 53–specific extension to DNS functionality. Alias records let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets. They also let you route traffic from one record in a hosted zone to another record. When you use an alias record to route traffic to an AWS resource, Route 53 automatically recognizes changes in the resource. For example, suppose an alias record for example.com points to an Elastic Load Balancing load balancer at lb1-1234.us-east-2.elb.amazonaws.com. If the IP address of the load balancer changes, Route 53 automatically starts to respond to DNS queries using the new IP address. \n If an alias record points to an AWS resource, you can't set the time to live (TTL); Route 53 uses the default TTL for the resource. If an alias record points to another record in the same hosted zone, Route 53 uses the TTL of the record that the alias record points to. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html",
+                                "properties": {
+                                  "dnsName": {
+                                    "maxLength": 253,
+                                    "type": "string"
+                                  },
+                                  "evaluateTargetHealth": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "dnsName"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckConfig": {
+                                "description": "HealthCheckConfig specifies the health check configuration for the endpoint. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "properties": {
+                                  "hostname": {
+                                    "description": "The domain name of the endpoint to check. The domain must point to a publicly accessible resource and must be resolvable using a public DNS server. The domain name can contain a subdomain, but it must not contain a path (such as example.com/healthcheck).",
+                                    "type": "string"
+                                  },
+                                  "resourcePath": {
+                                    "description": "The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&login=y.",
+                                    "type": "string"
+                                  },
+                                  "searchString": {
+                                    "description": "The string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route53 considers case when searching for SearchString in the response body.",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "hostname",
+                                  "resourcePath"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckId": {
+                                "description": "HealthCheckId uniquely identifies the id of a health check that check the health of endpoints. Associating a health check with a record is useful only when Route 53 is choosing between two or more records to respond to a DNS query, and you want Route 53 to base the choice in part on the status of a health check. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "type": "string"
+                              },
+                              "nonAlias": {
+                                "description": "NonAlias lets you setup a Route53 non-alias record.",
+                                "properties": {
+                                  "recordType": {
+                                    "description": "The DNS record type.",
+                                    "enum": [
+                                      "A",
+                                      "AAAA",
+                                      "CNAME"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "targets": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "ttl": {
+                                    "description": "The resource record cache time to live (TTL), in seconds. All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.",
+                                    "format": "int64",
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "recordType",
+                                  "targets"
+                                ],
+                                "type": "object"
+                              },
+                              "region": {
+                                "description": "Region specifies where the resource that you specified in this record resides. You can only create one latency record for each Amazon EC2 Region.",
+                                "enum": [
+                                  "us-east-1",
+                                  "us-east-2",
+                                  "us-west-1",
+                                  "us-west-2",
+                                  "ca-central-1",
+                                  "eu-west-1",
+                                  "eu-west-2",
+                                  "eu-west-3",
+                                  "eu-central-1",
+                                  "eu-central-2",
+                                  "ap-southeast-1",
+                                  "ap-southeast-2",
+                                  "ap-southeast-3",
+                                  "ap-northeast-1",
+                                  "ap-northeast-2",
+                                  "ap-northeast-3",
+                                  "eu-north-1",
+                                  "sa-east-1",
+                                  "cn-north-1",
+                                  "cn-northwest-1",
+                                  "ap-east-1",
+                                  "me-south-1",
+                                  "me-central-1",
+                                  "ap-south-1",
+                                  "af-south-1",
+                                  "eu-south-1"
+                                ],
+                                "type": "string"
+                              },
+                              "setIdentifier": {
+                                "description": "SetIdentifier uniquely identifies this record in the group of latency records.",
+                                "minLength": 1,
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "region",
+                              "setIdentifier"
+                            ],
+                            "type": "object"
+                          },
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "endpoints"
+                      ],
+                      "type": "object"
+                    },
+                    "simpleRoutingPolicy": {
+                      "oneOf": [
+                        {
+                          "required": [
+                            "alias"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "nonAlias"
+                          ]
+                        }
+                      ],
+                      "description": "SimpleRoutingPolicy lets you configure standard DNS records, with no special Route 53 routing such as weighted or latency. With simple routing, you typically route traffic to a single resource, for example, to a web server for your website. If you choose the simple routing policy, you can't create multiple records that have the same name and type, but you can specify multiple values in the same record, such as multiple IP addresses. If you choose the simple routing policy for an alias record, you can specify only one AWS resource or one record in the current hosted zone. If you specify multiple values in a record, Route 53 returns all values to the recursive resolver in random order, and the resolver returns the values to the client that submitted the DNS query. The client then chooses a value and resubmits the query. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-simple.html",
+                      "properties": {
+                        "alias": {
+                          "description": "Alias lets you setup a Route53 alias record. Amazon Route 53 alias records provide a Route 53–specific extension to DNS functionality. Alias records let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets. They also let you route traffic from one record in a hosted zone to another record. When you use an alias record to route traffic to an AWS resource, Route 53 automatically recognizes changes in the resource. For example, suppose an alias record for example.com points to an Elastic Load Balancing load balancer at lb1-1234.us-east-2.elb.amazonaws.com. If the IP address of the load balancer changes, Route 53 automatically starts to respond to DNS queries using the new IP address. \n If an alias record points to an AWS resource, you can't set the time to live (TTL); Route 53 uses the default TTL for the resource. If an alias record points to another record in the same hosted zone, Route 53 uses the TTL of the record that the alias record points to. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html",
+                          "properties": {
+                            "dnsName": {
+                              "maxLength": 253,
+                              "type": "string"
+                            },
+                            "evaluateTargetHealth": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "dnsName"
+                          ],
+                          "type": "object"
+                        },
+                        "nonAlias": {
+                          "description": "NonAlias lets you setup a Route53 non-alias record.",
+                          "properties": {
+                            "recordType": {
+                              "description": "The DNS record type.",
+                              "enum": [
+                                "A",
+                                "AAAA",
+                                "CNAME"
+                              ],
+                              "type": "string"
+                            },
+                            "targets": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            "ttl": {
+                              "description": "The resource record cache time to live (TTL), in seconds. All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.",
+                              "format": "int64",
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "recordType",
+                            "targets"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "weightedRoutingPolicy": {
+                      "description": "WeightedRoutingPolicy routing lets you associate multiple resources with a single domain name (example.com) or subdomain name (acme.example.com) and choose how much traffic is routed to each resource. This can be useful for a variety of purposes, including load balancing and testing new versions of software. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-weighted.html",
+                      "properties": {
+                        "endpoints": {
+                          "items": {
+                            "oneOf": [
+                              {
+                                "required": [
+                                  "alias"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "nonAlias"
+                                ]
+                              }
+                            ],
+                            "properties": {
+                              "alias": {
+                                "description": "Alias lets you setup a Route53 alias record. Amazon Route 53 alias records provide a Route 53–specific extension to DNS functionality. Alias records let you route traffic to selected AWS resources, such as CloudFront distributions and Amazon S3 buckets. They also let you route traffic from one record in a hosted zone to another record. When you use an alias record to route traffic to an AWS resource, Route 53 automatically recognizes changes in the resource. For example, suppose an alias record for example.com points to an Elastic Load Balancing load balancer at lb1-1234.us-east-2.elb.amazonaws.com. If the IP address of the load balancer changes, Route 53 automatically starts to respond to DNS queries using the new IP address. \n If an alias record points to an AWS resource, you can't set the time to live (TTL); Route 53 uses the default TTL for the resource. If an alias record points to another record in the same hosted zone, Route 53 uses the TTL of the record that the alias record points to. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html",
+                                "properties": {
+                                  "dnsName": {
+                                    "maxLength": 253,
+                                    "type": "string"
+                                  },
+                                  "evaluateTargetHealth": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "dnsName"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckConfig": {
+                                "description": "HealthCheckConfig specifies the health check configuration for the endpoint. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "properties": {
+                                  "hostname": {
+                                    "description": "The domain name of the endpoint to check. The domain must point to a publicly accessible resource and must be resolvable using a public DNS server. The domain name can contain a subdomain, but it must not contain a path (such as example.com/healthcheck).",
+                                    "type": "string"
+                                  },
+                                  "resourcePath": {
+                                    "description": "The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&login=y.",
+                                    "type": "string"
+                                  },
+                                  "searchString": {
+                                    "description": "The string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route53 considers case when searching for SearchString in the response body.",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "hostname",
+                                  "resourcePath"
+                                ],
+                                "type": "object"
+                              },
+                              "healthCheckId": {
+                                "description": "HealthCheckId uniquely identifies the id of a health check that check the health of endpoints. Associating a health check with a record is useful only when Route 53 is choosing between two or more records to respond to a DNS query, and you want Route 53 to base the choice in part on the status of a health check. Either a HealthCheckId or HealthCheckConfig can be specified, never both.",
+                                "type": "string"
+                              },
+                              "nonAlias": {
+                                "description": "NonAlias lets you setup a Route53 non-alias record.",
+                                "properties": {
+                                  "recordType": {
+                                    "description": "The DNS record type.",
+                                    "enum": [
+                                      "A",
+                                      "AAAA",
+                                      "CNAME"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "targets": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "ttl": {
+                                    "description": "The resource record cache time to live (TTL), in seconds. All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.",
+                                    "format": "int64",
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "recordType",
+                                  "targets"
+                                ],
+                                "type": "object"
+                              },
+                              "setIdentifier": {
+                                "description": "SetIdentifier uniquely identifies this record in the group of latency records.",
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "weight": {
+                                "description": "Amazon Route 53 sends traffic to a resource based on the weight that you assign to the record as a proportion of the total weight for all records in the group. If you want to stop sending traffic to a resource, you can change the weight for that record to 0.",
+                                "format": "int64",
+                                "minimum": 0,
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "setIdentifier",
+                              "weight"
+                            ],
+                            "type": "object"
+                          },
+                          "minItems": 1,
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "endpoints"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "dnsName"
+                  ],
+                  "type": "object"
+                },
+                "status": {
+                  "description": "DNSRecordStatus defines the observed state of DNSRecord",
+                  "properties": {
+                    "conditions": {
+                      "items": {
+                        "description": "DNSRecordCondition is a status condition for a DNSRecord",
+                        "properties": {
+                          "detailedMessage": {
+                            "description": "DetailedMessage associated with this condition",
+                            "type": "string"
+                          },
+                          "lastTransitionTime": {
+                            "description": "LastTransitionTime of this condition",
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "lastUpdateTime": {
+                            "description": "LastUpdateTime of this condition",
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "message": {
+                            "description": "Message associated with this condition",
+                            "type": "string"
+                          },
+                          "requestId": {
+                            "description": "RequestID to be used when tracing possible issues with the CR processing",
+                            "type": "string"
+                          },
+                          "status": {
+                            "description": "Status of this condition",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "iterations": {
+                      "description": "Number of updates of Status;",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "served": true,
+          "storage": true,
+          "subresources": {
+            "status": {}
+          }
+        }
+      ]
+    }
+  }
+  
