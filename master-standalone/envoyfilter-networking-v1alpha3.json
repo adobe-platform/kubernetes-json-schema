@@ -8,6 +8,7 @@
           "items": {
             "properties": {
               "applyTo": {
+                "description": "Specifies where in the Envoy configuration, the patch should be applied.\n\nValid Options: LISTENER, FILTER_CHAIN, NETWORK_FILTER, HTTP_FILTER, ROUTE_CONFIGURATION, VIRTUAL_HOST, HTTP_ROUTE, CLUSTER, EXTENSION_CONFIG, BOOTSTRAP, LISTENER_FILTER",
                 "enum": [
                   "INVALID",
                   "LISTENER",
@@ -19,7 +20,8 @@
                   "HTTP_ROUTE",
                   "CLUSTER",
                   "EXTENSION_CONFIG",
-                  "BOOTSTRAP"
+                  "BOOTSTRAP",
+                  "LISTENER_FILTER"
                 ],
                 "type": "string"
               },
@@ -73,6 +75,8 @@
                       },
                       "portNumber": {
                         "description": "The service port for which this cluster was generated.",
+                        "maximum": 4294967295,
+                        "minimum": 0,
                         "type": "integer"
                       },
                       "service": {
@@ -87,7 +91,7 @@
                     "type": "object"
                   },
                   "context": {
-                    "description": "The specific config generation context to match on.",
+                    "description": "The specific config generation context to match on.\n\nValid Options: ANY, SIDECAR_INBOUND, SIDECAR_OUTBOUND, GATEWAY",
                     "enum": [
                       "ANY",
                       "SIDECAR_INBOUND",
@@ -108,6 +112,8 @@
                           },
                           "destinationPort": {
                             "description": "The destination_port value used by a filter chain's match condition.",
+                            "maximum": 4294967295,
+                            "minimum": 0,
                             "type": "integer"
                           },
                           "filter": {
@@ -118,6 +124,7 @@
                                 "type": "string"
                               },
                               "subFilter": {
+                                "description": "The next level filter within this filter to match upon.",
                                 "properties": {
                                   "name": {
                                     "description": "The filter name to match on.",
@@ -144,6 +151,10 @@
                         },
                         "type": "object"
                       },
+                      "listenerFilter": {
+                        "description": "Match a specific listener filter.",
+                        "type": "string"
+                      },
                       "name": {
                         "description": "Match a specific listener by its name.",
                         "type": "string"
@@ -152,6 +163,9 @@
                         "type": "string"
                       },
                       "portNumber": {
+                        "description": "The service port/gateway port to which traffic is being sent/received.",
+                        "maximum": 4294967295,
+                        "minimum": 0,
                         "type": "integer"
                       }
                     },
@@ -164,9 +178,11 @@
                         "additionalProperties": {
                           "type": "string"
                         },
+                        "description": "Match on the node metadata supplied by a proxy when connecting to istiod.",
                         "type": "object"
                       },
                       "proxyVersion": {
+                        "description": "A regular expression in golang regex format (RE2) that can be used to select proxies using a specific version of istio proxy.",
                         "type": "string"
                       }
                     },
@@ -176,6 +192,7 @@
                     "description": "Match on envoy HTTP route configuration attributes.",
                     "properties": {
                       "gateway": {
+                        "description": "The Istio gateway config's namespace/name for which this route configuration was generated.",
                         "type": "string"
                       },
                       "name": {
@@ -187,18 +204,27 @@
                         "type": "string"
                       },
                       "portNumber": {
+                        "description": "The service port number or gateway server port number for which this route configuration was generated.",
+                        "maximum": 4294967295,
+                        "minimum": 0,
                         "type": "integer"
                       },
                       "vhost": {
+                        "description": "Match a specific virtual host in a route configuration and apply the patch to the virtual host.",
                         "properties": {
+                          "domainName": {
+                            "description": "Match a domain name in a virtual host.",
+                            "type": "string"
+                          },
                           "name": {
+                            "description": "The VirtualHosts objects generated by Istio are named as host:port, where the host typically corresponds to the VirtualService's host field or the hostname of a service in the registry.",
                             "type": "string"
                           },
                           "route": {
                             "description": "Match a specific route within the virtual host.",
                             "properties": {
                               "action": {
-                                "description": "Match a route with specific action type.",
+                                "description": "Match a route with specific action type.\n\nValid Options: ANY, ROUTE, REDIRECT, DIRECT_RESPONSE",
                                 "enum": [
                                   "ANY",
                                   "ROUTE",
@@ -208,6 +234,7 @@
                                 "type": "string"
                               },
                               "name": {
+                                "description": "The Route objects generated by default are named as default.",
                                 "type": "string"
                               }
                             },
@@ -226,7 +253,7 @@
                 "description": "The patch to apply along with the operation.",
                 "properties": {
                   "filterClass": {
-                    "description": "Determines the filter insertion order.",
+                    "description": "Determines the filter insertion order.\n\nValid Options: AUTHN, AUTHZ, STATS",
                     "enum": [
                       "UNSPECIFIED",
                       "AUTHN",
@@ -236,7 +263,7 @@
                     "type": "string"
                   },
                   "operation": {
-                    "description": "Determines how the patch should be applied.",
+                    "description": "Determines how the patch should be applied.\n\nValid Options: MERGE, ADD, REMOVE, INSERT_BEFORE, INSERT_AFTER, INSERT_FIRST, REPLACE",
                     "enum": [
                       "INVALID",
                       "MERGE",
@@ -267,21 +294,176 @@
           "format": "int32",
           "type": "integer"
         },
+        "targetRefs": {
+          "description": "Optional.",
+          "items": {
+            "properties": {
+              "group": {
+                "description": "group is the group of the target resource.",
+                "maxLength": 253,
+                "pattern": "^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
+                "type": "string"
+              },
+              "kind": {
+                "description": "kind is kind of the target resource.",
+                "maxLength": 63,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$",
+                "type": "string"
+              },
+              "name": {
+                "description": "name is the name of the target resource.",
+                "maxLength": 253,
+                "minLength": 1,
+                "type": "string"
+              },
+              "namespace": {
+                "description": "namespace is the namespace of the referent.",
+                "type": "string",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "cross namespace referencing is not currently supported",
+                    "rule": "self.size() == 0"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "name"
+            ],
+            "type": "object"
+          },
+          "maxItems": 16,
+          "type": "array"
+        },
         "workloadSelector": {
+          "description": "Criteria used to select the specific set of pods/VMs on which this patch configuration should be applied.",
           "properties": {
             "labels": {
               "additionalProperties": {
-                "type": "string"
+                "maxLength": 63,
+                "type": "string",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "wildcard is not supported in selector",
+                    "rule": "!self.contains(\"*\")"
+                  }
+                ]
               },
+              "description": "One or more labels that indicate a specific set of pods/VMs on which the configuration should be applied.",
+              "maxProperties": 256,
               "type": "object"
             }
           },
           "type": "object"
         }
       },
-      "type": "object"
+      "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "message": "only one of targetRefs or workloadSelector can be set",
+          "rule": "(has(self.workloadSelector) ? 1 : 0) + (has(self.targetRefs) ? 1 : 0) <= 1"
+        }
+      ]
     },
     "status": {
+      "properties": {
+        "conditions": {
+          "description": "Current service state of the resource.",
+          "items": {
+            "properties": {
+              "lastProbeTime": {
+                "description": "Last time we probed the condition.",
+                "format": "date-time",
+                "type": "string"
+              },
+              "lastTransitionTime": {
+                "description": "Last time the condition transitioned from one status to another.",
+                "format": "date-time",
+                "type": "string"
+              },
+              "message": {
+                "description": "Human-readable message indicating details about last transition.",
+                "type": "string"
+              },
+              "observedGeneration": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "description": "Resource Generation to which the Condition refers.",
+                "x-kubernetes-int-or-string": true
+              },
+              "reason": {
+                "description": "Unique, one-word, CamelCase reason for the condition's last transition.",
+                "type": "string"
+              },
+              "status": {
+                "description": "Status is the status of the condition.",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type is the type of the condition.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "observedGeneration": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "x-kubernetes-int-or-string": true
+        },
+        "validationMessages": {
+          "description": "Includes any errors or warnings detected by Istio's analyzers.",
+          "items": {
+            "properties": {
+              "documentationUrl": {
+                "description": "A url pointing to the Istio documentation for this specific error type.",
+                "type": "string"
+              },
+              "level": {
+                "description": "Represents how severe a message is.\n\nValid Options: UNKNOWN, ERROR, WARNING, INFO",
+                "enum": [
+                  "UNKNOWN",
+                  "ERROR",
+                  "WARNING",
+                  "INFO"
+                ],
+                "type": "string"
+              },
+              "type": {
+                "properties": {
+                  "code": {
+                    "description": "A 7 character code matching `^IST[0-9]{4}$` intended to uniquely identify the message type.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "A human-readable name for the message type.",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
       "type": "object",
       "x-kubernetes-preserve-unknown-fields": true
     }
