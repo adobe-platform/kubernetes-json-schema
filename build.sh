@@ -5,8 +5,9 @@ set -o nounset
 set -o pipefail
 
 # use homebrew cut if installed
-if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+HOMEBREW_PREFIX="$(brew --prefix)"
+if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
+  PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:${PATH}"
 fi
 
 function crd_to_json_schema() {
@@ -41,7 +42,7 @@ function crd_to_json_schema() {
         echo "apiextensions: ${api_version} documentIndex: ${document} | kind: ${kind} crd_kind: ${crd_kind} crd_group: ${crd_group}"
         crd_version=$(yq eval "select(documentIndex == ${document}) | .spec.version" "${input}")
         if [ -n "${crd_version}" ]; then
-          yq eval --prettyPrint --tojson "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
+          yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}"  | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
         else
           for crd_version in $(yq eval "select(documentIndex == ${document}) | .spec.versions[].name" "${input}"); do
             yq eval --prettyPrint -o json "select(documentIndex == ${document}) | .spec.validation.openAPIV3Schema" "${input}" | write_schema "${crd_kind}-${crd_group}-${crd_version}.json"
