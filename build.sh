@@ -15,7 +15,10 @@ function crd_to_json_schema() {
   echo "Processing ${1}..."
   input="input/${1}.yaml"
   if [[ "${1}" != "platformlog" ]]; then
-    curl -L --silent --show-error "${@:2}" > "${input}"
+    if ! curl -f -L --silent --show-error "${@:2}" > "${input}"; then
+      echo "Failed to download ${1} from ${*:2}"
+      return
+    fi
   fi
 
   # Clean the input for compound schema docs that don't contain a yaml seperator (e.g., aso)
@@ -67,21 +70,19 @@ function write_schema() {
 }
 
 crd_to_json_schema argo-cd https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-crd_to_json_schema argo-workflows https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/install.yaml
+crd_to_json_schema argo-workflows https://raw.githubusercontent.com/argoproj/argo-workflows/main/manifests/base/crds/full/argoproj.io_{clusterworkflowtemplates,cronworkflows,workflowartifactgctasks,workfloweventbindings,workflows,workflowtaskresults,workflowtasksets,workflowtemplates}.yaml
 crd_to_json_schema argo-rollouts https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 crd_to_json_schema cert-manager https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
 crd_to_json_schema helm-operator https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 crd_to_json_schema helm-repository https://raw.githubusercontent.com/fluxcd/source-controller/main/config/crd/bases/source.toolkit.fluxcd.io_helmrepositories.yaml
 crd_to_json_schema prometheus-operator https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/example/prometheus-operator-crd/monitoring.coreos.com_{alertmanagers,alertmanagerconfigs,podmonitors,probes,prometheuses,prometheusrules,servicemonitors,thanosrulers}.yaml
-crd_to_json_schema contour https://raw.githubusercontent.com/phylake/contour/v1.5-adobe/examples/contour/01-crds.yaml
-crd_to_json_schema istio https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/crds/crd-all.gen.yaml
-crd_to_json_schema aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts/azure-service-operator/crds/apiextensions.k8s.io_v1_customresourcedefinition_{apimgmtapis,apimservices,appinsights,appinsightsapikeys,azureloadbalancers,azurenetworkinterfaces,azurepublicipaddresses,azuresqlactions,azuresqldatabases,azuresqlfailovergroups,azuresqlfirewallrules,azuresqlmanagedusers,azuresqlservers,azuresqlusers,azuresqlvnetrules,azurevirtualmachineextensions,azurevirtualmachines,azurevmscalesets,blobcontainers,consumergroups,cosmosdbs,cosmosdbsqldatabases,eventhubnamespaces,eventhubs,keyvaultkeys,keyvaults,mysqlaadusers,mysqldatabases,mysqlfirewallrules,mysqlservers,mysqlserveradministrators,mysqlusers,mysqlvnetrules,postgresqldatabases,postgresqlfirewallrules,postgresqlservers,postgresqlusers,postgresqlvnetrules,rediscacheactions,rediscachefirewallrules,rediscaches,resourcegroups,storageaccounts,virtualnetworks}.azure.microsoft.com.yaml
-crd_to_json_schema cilium https://raw.githubusercontent.com/cilium/cilium/master/pkg/k8s/apis/cilium.io/client/crds/v2/cilium{clusterwidenetworkpolicies,endpoints,externalworkloads,identities,localredirectpolicies,networkpolicies,nodes}.yaml
+crd_to_json_schema istio https://raw.githubusercontent.com/istio/istio/master/manifests/charts/base/files/crd-all.gen.yaml
+crd_to_json_schema cilium https://raw.githubusercontent.com/cilium/cilium/master/pkg/k8s/apis/cilium.io/client/crds/v2/cilium{clusterwidenetworkpolicies,endpoints,identities,localredirectpolicies,networkpolicies,nodes}.yaml
 crd_to_json_schema dynamodb-controller https://raw.githubusercontent.com/aws-controllers-k8s/dynamodb-controller/main/helm/crds/dynamodb.services.k8s.{aws_backups,aws_globaltables,aws_tables}.yaml
 crd_to_json_schema aws-adopted-resources https://raw.githubusercontent.com/aws-controllers-k8s/dynamodb-controller/main/helm/crds/services.k8s.aws_adoptedresources.yaml
 crd_to_json_schema elasticache-controller https://raw.githubusercontent.com/aws-controllers-k8s/elasticache-controller/main/helm/crds/elasticache.services.k8s.{aws_cacheparametergroups,aws_cachesubnetgroups,aws_replicationgroups,aws_snapshots}.yaml
-crd_to_json_schema rds-controller https://raw.githubusercontent.com/aws-controllers-k8s/rds-controller/main/helm/crds/rds.services.k8s.aws_{dbinstances,dbparametergrups,dbsecuritygroups,dbsubnetgroups}.yaml
+crd_to_json_schema rds-controller https://raw.githubusercontent.com/aws-controllers-k8s/rds-controller/main/helm/crds/rds.services.k8s.aws_{dbinstances,dbparametergroups,dbsubnetgroups}.yaml
 crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-on-k8s/1.6/deploy/eck-operator/charts/eck-operator-crds/templates/all-crds.yaml
-crd_to_json_schema vault-secrets-operator https://raw.githubusercontent.com/ricoberger/vault-secrets-operator/master/charts/vault-secrets-operator/crds/crd-vaultsecret.yaml
+crd_to_json_schema vault-secrets-operator https://raw.githubusercontent.com/ricoberger/vault-secrets-operator/master/charts/vault-secrets-operator/crds/ricoberger.de_vaultsecrets.yaml
 crd_to_json_schema vpa https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
 crd_to_json_schema external-secrets-operator https://raw.githubusercontent.com/external-secrets/external-secrets/main/deploy/crds/bundle.yaml
