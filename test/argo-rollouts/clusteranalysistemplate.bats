@@ -4,18 +4,36 @@ load ../test_helper
 
 @test "valid ClusterAnalysisTemplate" {
   run kubeval "${FIXTURES}/valid.yaml"
-  [[ $status -eq 0 ]]
-  [[ $output = "PASS - ${FIXTURES}/valid.yaml contains a valid ClusterAnalysisTemplate (test.test)" ]]
+  [[ $status -eq 0 ]] || {
+    echo "Output: $output"
+    exit 1
+  }
+  [[ $output = "PASS - ${FIXTURES}/valid.yaml contains a valid ClusterAnalysisTemplate (test.test)" ]] || {
+    echo "Output: $output"
+    exit 1
+  }
 }
 
 @test "invalid ClusterAnalysisTemplate" {
   run kubeval "${FIXTURES}/invalid.yaml"
-  [[ $status -eq 1 ]]
-  [[ $output = "WARN - ${FIXTURES}/invalid.yaml contains an invalid ClusterAnalysisTemplate (test.test) - metrics: metrics is required" ]]
+  [[ $status -eq 1 ]] || {
+    echo "Output: $output"
+    exit 1
+  }
+  [[ $output = "WARN - ${FIXTURES}/invalid.yaml contains an invalid ClusterAnalysisTemplate (test.test) - provider: provider is required" ]] || {
+    echo "Output: $output"
+    exit 1
+  }
 }
 
 @test "invalid ClusterAnalysisTemplate in strict mode" {
   run kubeval --strict "${FIXTURES}/strict.yaml"
-  [[ $status -eq 1 ]]
-  [[ $output = "WARN - ${FIXTURES}/strict.yaml contains an invalid ClusterAnalysisTemplate (test.test) - invalid-key: Additional property invalid-key is not allowed" ]]
+  [[ $status -eq 1 ]] || {
+    echo "Output: $output"
+    exit 1
+  }
+  [[ $output = "WARN - ${FIXTURES}/strict.yaml contains an invalid ClusterAnalysisTemplate (test.test) - invalid-key: Additional property invalid-key is not allowed" ]] || {
+    echo "Output: $output"
+    exit 1
+  }
 }

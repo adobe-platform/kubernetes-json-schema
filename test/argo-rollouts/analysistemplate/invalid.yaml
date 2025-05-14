@@ -4,4 +4,6 @@ kind: 'AnalysisTemplate'
 metadata:
   name: 'test'
   namespace: 'test'
-spec: {}
+spec:
+  metrics:
+    - name: success-rate
