@@ -17,6 +17,7 @@ CRD's currently supported:
 - contour (adobe fork)
 - helm-operator
 - istio
+- keda
 - prometheus-operator
 - ack dynamodb- and elasticache controllers
 - elasticsearch opertator

@@ -87,3 +87,4 @@ crd_to_json_schema eck-operator https://raw.githubusercontent.com/elastic/cloud-
 crd_to_json_schema vault-secrets-operator https://raw.githubusercontent.com/ricoberger/vault-secrets-operator/master/charts/vault-secrets-operator/crds/ricoberger.de_vaultsecrets.yaml
 crd_to_json_schema vpa https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
 crd_to_json_schema external-secrets-operator https://raw.githubusercontent.com/external-secrets/external-secrets/main/deploy/crds/bundle.yaml
+crd_to_json_schema keda https://raw.githubusercontent.com/kedacore/keda/main/config/crd/bases/keda.sh_scaledobjects.yaml
