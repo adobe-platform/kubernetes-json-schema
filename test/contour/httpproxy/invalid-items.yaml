@@ -1,0 +1,23 @@
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: test
+spec:
+  virtualhost:
+    fqdn: example.com
+    corsPolicy:
+      allowHeaders:
+        - 123
+      allowMethods:
+        - 123
+      allowOrigin:
+        - false
+      exposeHeaders:
+        - 123
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: test
+          port: 8080

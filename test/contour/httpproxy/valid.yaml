@@ -1,0 +1,33 @@
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: test
+spec:
+  virtualhost:
+    fqdn: example.com
+    tls:
+      secretName: example-tls
+      minimumProtocolVersion: "1.2"
+    corsPolicy:
+      allowCredentials: true
+      allowOrigin:
+        - https://app.example.com
+      allowMethods:
+        - GET
+        - POST
+        - OPTIONS
+      allowHeaders:
+        - Authorization
+        - Content-Type
+        - X-CALLER-ID
+        - x-user-auth
+      exposeHeaders:
+        - Content-Length
+      maxAge: 10m
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: test
+          port: 8080
